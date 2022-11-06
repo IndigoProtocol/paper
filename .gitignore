@@ -1,0 +1,11 @@
+*.aux
+*.docx
+*.log
+*.out
+*.pandoc
+*.pdf
+*.tmp
+*.tmp.tex
+*.toc
+svg-inkscape
+.DS_Store

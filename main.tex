@@ -1,0 +1,72 @@
+\documentclass{article}
+
+\pdfsuppresswarningpagegroup=1
+\hbadness=99999
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{pdflscape}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{svg}
+\usepackage{placeins}
+\usepackage{tabularx}
+\usepackage{ltablex}
+\usepackage{eso-pic}
+\keepXColumns
+\newcolumntype{L}{>{\raggedright}X}
+\usetikzlibrary{positioning}
+\tikzset{
+  script/.style={draw, circle},
+  utxo/.style={draw, rectangle, align=center}
+}
+
+\AddToShipoutPictureBG{%
+\begin{tikzpicture}[remember picture, overlay]
+\node[opacity=.3, inner sep=0pt]
+  at(current page.center){\includegraphics{
+  images/background.png}};
+\end{tikzpicture}%
+}
+
+% Avoid hyphenation
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+% Cover page image
+\AddToShipoutPicture*{%
+\put(0,0){%
+\parbox[b][\paperheight]{\paperwidth}{%
+\vfill
+\centering
+\includegraphics[width=\paperwidth,height=\paperheight]{
+images/coverpage.jpg}%
+\vfill
+}}}
+
+\renewcommand*\contentsname{Table of Contents}
+
+\begin{document}
+\begin{sloppypar}
+
+\begin{titlepage}
+\sffamily\selectfont
+\centering
+\vspace*{7cm}
+{\includesvg[width=10cm]{images/logo.svg}}\\[5\baselineskip]
+\textcolor{white}{
+{\Huge Synthetic Assets on Cardano}\\[2\baselineskip]
+{\Large Indigo Laboratories, Inc.}\\[0.5\baselineskip]
+{\large info@indigo-labs.io}\\[3\baselineskip]
+{\large November 2022, v1.0}
+}
+\end{titlepage}
+
+Oh look, it's Indigo
+
+\end{sloppypar}
+\end{document}
