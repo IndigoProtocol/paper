@@ -15,6 +15,8 @@
 \usepackage{tabularx}
 \usepackage{ltablex}
 \usepackage{eso-pic}
+\usepackage{tablefootnote}
+\usepackage{amssymb}
 \keepXColumns
 \newcolumntype{L}{>{\raggedright}X}
 \usetikzlibrary{positioning}
@@ -25,7 +27,7 @@
 
 \AddToShipoutPictureBG{%
 \begin{tikzpicture}[remember picture, overlay]
-\node[opacity=.3, inner sep=0pt]
+\node[opacity=.5, inner sep=0pt]
   at(current page.center){\includegraphics{
   images/background.png}};
 \end{tikzpicture}%
@@ -36,6 +38,14 @@
 \emergencystretch=\maxdimen
 \hyphenpenalty=10000
 \hbadness=10000
+
+% Style hyperlinks
+\hypersetup{%
+  colorlinks=true,
+  linkcolor=blue,
+  linkbordercolor=red,
+  pdfborder={0 0 0}
+}
 
 % Cover page image
 \AddToShipoutPicture*{%
@@ -66,7 +76,4856 @@ images/coverpage.jpg}%
 }
 \end{titlepage}
 
-Oh look, it's Indigo
+\tableofcontents
+
+\hypertarget{motivation}{%
+\section{Motivation}\label{motivation}}
+
+For most of the world's population, important financial tools are
+inaccessible. This is exemplified by the fact that two people can share
+the same education, perform the same work, and put in the same amount of
+effort, yet not have the same development possibilities. One could have
+access to a share of the global economy's growth, while the other may be
+left out.
+
+It's brutal and unfair. Until now, borders have limited human
+development. With the advent of blockchain technology, we are amid a
+global switch in the financial foundation we use as a society to trade
+and transact. At the forefront of this transformation, we present a new
+solution to equalize the playing field by bringing the world's assets to
+the blockchain. This solution allows anyone to access and participate in
+new financial markets and take control of their own financial destiny,
+paving the way for a new mantra: Tokenize Everything.
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+This document (the ``Indigo paper'') presents the Indigo Protocol (the
+``protocol'' or ``Indigo''), a synthetic assets protocol built for
+Cardano\footnote{\href{https://www.coinbase.com/learn/crypto-basics/what-is-cardano}{Cardano}
+  is a public blockchain that supports smart contracts and custom tokens
+  utilizing an
+  \href{https://docs.cardano.org/plutus/eutxo-explainer/}{eUTXO}
+  architecture, an extension of
+  \href{https://unchained.com/blog/what-is-a-utxo-bitcoin/}{UTXO}.}.
+Combining the benefits of a white paper\footnote{A
+  \href{https://cointelegraph.com/funding-for-beginners/what-is-a-white-paper-a-beginners-guide-on-how-to-write-and-format-one}{white
+  paper} is a marketing tool typically used to attract investors.} and a
+yellow paper\footnote{A
+  \href{https://wikicryptocoins.com/currency/Yellow_Paper}{yellow paper}
+  typically contains complete specification details.}, the Indigo paper
+provides both a high-level and detailed protocol specification for
+educating the Indigo community. The Indigo paper serves as the basis to
+introduce Indigo and kickstart complete community management.
+
+Indigo has been committed to a \protect\hyperlink{fair-launch}{Fair
+Launch} to bootstrap the protocol from the ground up. As part of this
+initiative, no minting, pre-sale, or distribution of tokens related to
+the protocol have been undertaken. This ensures that starting from
+launch, Indigo will be community managed.
+
+\hypertarget{synthetic-assets}{%
+\subsection{Synthetic Assets}\label{synthetic-assets}}
+
+Indigo creates synthetic assets which are known in the protocol as
+iAssets (i.e., ``Indigo Assets''). iAssets are cryptocurrency assets
+that derive their prices from tracked assets. Prices of iAssets are
+influenced via protocol rules with the intention of matching the prices
+of the tracked assets. One example of an iAsset is iBTC, representing a
+synthetic version of Bitcoin (BTC); it is designed to mimic the price
+action of BTC -- an asset that lives in separate ecosystem than Indigo.
+
+\hypertarget{indigo-protocol}{%
+\subsection{Indigo Protocol}\label{indigo-protocol}}
+
+Indigo is a decentralized synthetics protocol for on-chain exposure to
+assets with publicly verifiable prices. Using Cardano Plutus\footnote{\href{https://developers.cardano.org/docs/smart-contracts/plutus/}{Plutus}
+  is a smart contract platform for Cardano.} smart contracts, the
+protocol enables the creation of iAssets. Prices of iAssets are soft
+pegged\footnote{A
+  \href{https://coinmarketcap.com/alexandria/glossary/soft-peg}{soft
+  peg} is a strategy of maintaining the value of an asset against
+  another asset by utilizing an exchange rate mechanism.} to external
+tracked assets; iAssets are overcollateralized in the form of a
+decentralized Collateralized Debt Position (``CDP''). The protocol
+enforces liquidations to ensure iAssets always maintain
+overcollateralization, meaning the value of the collateral in the CDP
+exceeds the intended value of the iAsset. In the event of a CDP becoming
+undercollateralized, a liquidation reestablishes overcollateralization
+by confiscating the collateral of the undercollateralized CDP and
+replacing it with another user's overcollateralized CDP.
+
+While minting an iAsset requires opening a CDP, after iAssets are minted
+they are freely exchangeable. Anyone with a Cardano wallet can send or
+receive iAssets, regardless of whether they have an open CDP.
+
+\hypertarget{benefits-of-iassets}{%
+\subsection{Benefits of iAssets}\label{benefits-of-iassets}}
+
+Users can gain some benefits of owning an asset without being required
+to obtain or own the asset themselves. This can be useful in cases where
+assets are difficult for a user to obtain or for assets that live
+elsewhere yet users desire to utilize on the Cardano blockchain.
+
+iAssets can be used as building pieces to be included in a wider
+financial strategy. This could include being part of derivative
+contracts or constructing a widely diversified portfolio in one easy to
+use system. Users can make trades without requiring the underlying
+supply. For example, more iAsset could exist than total supply of the
+real asset, allowing for leveraged trades that wouldn't be possible to
+be settled using the real underlying assets.
+
+iAssets have the following properties:
+
+\begin{itemize}
+\item
+  Tracking different type of assets and statistics; which allows the
+  creation of many new asset classes for emerging industries.
+\item
+  No custodians; iAsset creation is fully decentralized.
+\item
+  Low barrier to entry; anyone with cryptocurrency can use Indigo to
+  mint new synthetic assets or buy and trade them on the open market.
+\item
+  Composability; iAssets can be used as a lego block, enabling their
+  integration into a larger financial ecosystem.
+\end{itemize}
+
+\begin{tabularx}{\linewidth}{l|l}
+\caption{Examples of possible iAssets}
+\tabularnewline
+\toprule
+\textbf{Name} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{iBTC} & Tracks the price of BTC on the Bitcoin
+blockchain
+\tabularnewline
+\midrule
+\textbf{iETH} & Tracks the price of ETH on the Ethereum
+blockchain
+\tabularnewline
+\midrule
+\textbf{iUSD} & Tracks the price of dollar-denominated stablecoins on
+any blockchain
+\tabularnewline
+\midrule
+\textbf{iCPI} & Tracks the change of the Consumer Price Index over
+time
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\footnotetext{The
+\href{https://www.bls.gov/cpi/}{Consumer Price Index} is a measure
+of the average change over time in the prices of goods and
+services.}
+
+Generally, an iAsset names begin with the letter ``i,'' followed by the
+name of the tracked asset.
+
+\hypertarget{obtaining-iassets}{%
+\subsubsection{Obtaining iAssets}\label{obtaining-iassets}}
+
+There are two ways to obtain iAssets:
+
+\begin{itemize}
+\item
+  \textbf{Buying iAssets --} Users directly purchase iAssets via an
+  exchange (centralized or decentralized), thus gaining exposure without
+  having to request any loan.
+\item
+  \textbf{Minting iAssets --} Users make interest-free,
+  overcollateralized loans against their cryptocurrency assets.
+\end{itemize}
+
+Users can buy iAssets from any exchange that has available supply. After
+buying an iAsset, the user gains full control of the iAsset and can reap
+benefits from price possible appreciation. Users can be assured that
+iAssets maintain their intended pegged prices due to Indigo's
+liquidation process.
+
+The second way for users to obtain iAssets is by minting them within the
+Indigo Web App by depositing collateral and creating a loan.
+
+\hypertarget{collateralized-debt-positions}{%
+\subsection{Collateralized Debt
+Positions}\label{collateralized-debt-positions}}
+
+Every iAsset is backed by collateral held in a Collateralized Debt
+Position (a ``CDP''). A CDP is created by a user locking collateral (a
+minimum of 10 ADA) into Indigo to mint a new iAsset. An iAsset is
+borrowed against the \textbf{collateral}, creating a \textbf{debt}, and
+this \textbf{position} is watched by liquidators to ensure
+overcollateralization.
+
+The value of the collateral in a CDP should always exceed a
+governance-based Minimum Collateral Ratio (a ``MCR''). Each iAsset type
+has its own MCR. Both the value of the collateral and iAsset price can
+fluctuate over time, potentially causing a CDP to become
+undercollateralized. A CDP is considered undercollateralized when its
+collateral ratio (the ``CR'') falls below the iAsset's MCR. The CR is
+the ratio of the collateral value relative to the minted iAsset value,
+and can be calculated using the formula:
+
+\[c = \frac{a}{md}\]
+
+or:
+
+\[c = \frac{ab}{mp}\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(c\) is the CR used to determine solvency
+\item
+  \(a\) is the amount of ADA locked in the CDP
+\item
+  \(b\) is the dollar-denominated price of ADA
+\item
+  \(p\) is the dollar-denominated price of the iAsset's tracked asset
+\item
+  \(d\) is the ADA-denominated price of the iAsset's tracked asset
+\item
+  \(m\) is the amount of iAsset minted from the CDP
+\end{itemize}
+
+When CR drops below MCR, the CDP is considered insolvent and eligible
+for being frozen, which can then lead to
+\protect\hyperlink{stability-pools}{liquidation} to ensure the
+reestablishment of solvency.
+
+\hypertarget{cdp-and-iasset-example}{%
+\subsubsection{CDP and iAsset Example}\label{cdp-and-iasset-example}}
+
+As an example, assume Violet wants to mint 100 iDOT (\(m\)). DOT is
+trading for \$15 (\(p\)). Violet has 2,000 ADA (\(a\)) she's willing to
+use as collateral to borrow iDOT. ADA is trading for \$1.28 (\(b\)).
+
+Violet deposits 2,000 ADA into Indigo to mint 100 iDOT. A CDP is created
+consisting of 2,000 ADA. Violet now owns 100 iDOT and owes 100 iDOT to
+Indigo. Violet can still earn
+\protect\hyperlink{cdp-liquid-staking}{staking rewards} from her 2,000
+ADA, but cannot transfer it because it now is used as collateral. To
+regain control of her ADA, Violet must return 100 iDOT.
+
+Violet's CR is \textasciitilde171\%:
+
+\[c = \frac{ab}{mp} \therefore \frac{2000 \times 1.28}{100 \times 15} = \  \sim 1.71\]
+
+As the price of either DOT or ADA changes, CR changes too. When CR drops
+below the iDOT's MCR, Violet's CDP is subject to liquidation.
+
+If the price of ADA increases to \$1.40 (\(b\)) and DOT increases to
+\$19 (\(p\)), then Violet's CR drops to \textasciitilde147\%:
+
+\[\frac{2000 \times 1.4}{100 \times 19} = \sim 1.47\]
+
+If the iDOT MCR was 150\%, Violet's CDP could be liquidated. Upon
+liquidation, Violet would lose her 2,000 ADA collateral deposit. Violet
+could still have her 100 iDOT, worth \$1,900 (\$19 x 100). The 2,000 ADA
+she lost would be worth \$2,800 (\$1.40 x 2000). Therefore, Violet could
+have lost \$900 of value (\$2,800 - \$1,900).
+
+To have prevented liquidation, Violet needed to either add more ADA into
+her CDP to increase its CR, or close the CDP by returning the 100 iDOT
+she borrowed.
+
+\hypertarget{cdp-actions-and-states}{%
+\subsubsection{CDP Actions and States}\label{cdp-actions-and-states}}
+
+Several actions can be taken against a CDP by users of the protocol:
+
+\begin{itemize}
+\item
+  \textbf{Open Position --} Creates a CDP by a user depositing a minimum
+  of 10 ADA as collateral, and associates it with an iAsset type that
+  can be minted. The user who creates the CDP becomes the CDP's owner.
+\item
+  \textbf{Deposit Collateral --} An owner can increase CR by depositing
+  more collateral.
+\item
+  \textbf{Withdraw Collateral --} An owner can lower CR by withdrawing
+  part or all the collateral. Collateral cannot be withdrawn if it
+  brings CR below the iAsset's MCR. If a CDP has no debt (i.e., no
+  minted iAsset) and all collateral is withdrawn, then the CDP is
+  closed.
+\item
+  \textbf{Borrow iAsset --} An owner can lower CR by minting an iAsset.
+  This increases the amount of debt against the CDP. More iAsset cannot
+  be minted if it brings CR below the iAsset's MCR.
+\item
+  \textbf{Repay Debt --} An owner can increase the CR by repaying debt
+  in the form of iAsset. When the debt is repaid, the iAsset is burned
+  (i.e., destroyed). More iAsset cannot be burned than debt owed by the
+  CDP.
+\item
+  \textbf{Freeze --} If CR is below the iAsset's MCR, any user can
+  submit a transaction for that CDP to be frozen. Upon freezing, a CDP
+  is no longer usable or interactable by its former owner. The former
+  owner loses all access and rights to the CDP.
+\item
+  \textbf{Liquidate --} If a CDP is frozen, any user can submit a
+  transaction for that CDP to be liquidated. Upon liquidation, CDP debt
+  is repaid by withdrawing iAsset from a
+  \protect\hyperlink{stability-pools}{Stability Pool}. As debt is
+  repaid, collateral is withdrawn from the CDP. If all debt is repaid,
+  then all collateral is withdrawn, and the CDP is closed.
+\item
+  \textbf{Merge --} If two or more CDPs are frozen, any user can submit
+  a transaction for them to be merged into one CDP. Upon merging, all
+  but one of the CDPs requested to be merged are closed, and their debt
+  and collateral are transferred into a single CDP.
+\end{itemize}
+
+A CDP has the following states:
+
+\begin{itemize}
+\item
+  \textbf{Open --} A CDP that is fully collateralized, with its CR value
+  above the iAsset's MCR. Open CDPs remain fully usable by their owners.
+\item
+  \textbf{Insolvent --} A CDP that is undercollateralized, with its CR
+  value below the iAsset's MCR. Insolvent CDPs remain fully usable by
+  their owners but eligible to be frozen by any user.
+\item
+  \textbf{Frozen --} A CDP that has been confiscated by the protocol and
+  no longer has an owner. A CDP becomes frozen after a user successfully
+  submits a request against an insolvent CDP. Frozen CDPs cannot be used
+  by their former owners.
+\item
+  \textbf{Closed --} A CDP whose CR value is zero, no longer having any
+  collateral or debt. A CDP is closed after all its debt is repaid and
+  its collateral is withdrawn.
+\end{itemize}
+
+\hypertarget{cdp-liquid-staking}{%
+\subsubsection{CDP Liquid Staking}\label{cdp-liquid-staking}}
+
+Indigo supports liquid staking of ADA collateral within CDPs, allowing
+users to continue earning ADA rewards from the Cardano network on top of
+utilizing the benefits of iAsset minting. This improves capital
+efficiency and doubles reward capabilities -- rewards earned from
+Cardano, and rewards earned from Indigo. Liquid staking is a unique
+capability offered by Indigo and will help attract liquidity from
+outside of the Cardano ecosystem to encourage more participation,
+bringing iAssets to a wider audience.
+
+To use liquid staking, users must first have their Cardano wallet staked
+to their preferred stake pool\footnote{Indigo supports any
+  \href{https://cardano.org/stake-pool-delegation/}{Cardano stake pool}.
+  A stake pool is a Cardano network node that forms the basis for
+  consensus on the blockchain. Users can
+  \href{https://www.adastrong.com/staking/}{delegate their ADA} to stake
+  pools to earn ADA rewards from the Cardano network.}. The Indigo Web
+App automatically attaches the user's staking key when creating a CDP.
+All ADA deposited into that CDP will continue to earn staking rewards
+from the stake pool, accuring in the user's wallet.
+
+After a CDP is created, its stake key cannot be changed. If the user's
+wallet delegates to a new stake pool after creating the CDP, the CDP
+will continue to earn rewards using the original stake pool. To delegate
+to a different stake pool, users will need to close their CDP and open a
+new CDP, which will then attach the new CDP with the wallet's newly
+delegated stake pool.
+
+\hypertarget{indy}{%
+\subsection{INDY}\label{indy}}
+
+The Indigo DAO Token (``INDY'') is a Cardano native asset that can be
+owned, held, or transferred by any user. INDY serves as Indigo's utility
+token, with one of its key purposes being to allow on-chain voting on
+DAO proposals (a ``proposal'')\footnote{The usage of INDY and the
+  process of voting is described further in the
+  \href{https://github.com/IndigoProtocol/indigo-dao}{Indigo DAO
+  Constitution and Voting Procedures}.}. The total supply of INDY is 35M
+with a 6 decimal precision. INDY's monetary policy disallows future
+minting and burning, therefore making the total supply constant and
+unchanging. Indigo is undergoing a \protect\hyperlink{fair-launch}{Fair
+Launch}, therefore there has been no pre-sale nor private distribution
+to investors prior to launch.
+
+INDY will be distributed every Cardano epoch (five days), over a period
+of five years. There will be three distribution schedules for the
+community:
+
+\begin{itemize}
+\item
+  \textbf{Governance Distribution --} Users who opt to stake their INDY
+  into Indigo and participate in \protect\hyperlink{governance}{DAO
+  Governance} by voting on proposals will be eligible for INDY rewards
+  proportionally to their pro-rata share of staked INDY.
+\item
+  \textbf{Stability Pool Distribution --} Users who stake their iAssets
+  in \protect\hyperlink{stability-pools}{Stability Pools} to ensure the
+  protocol's solvency will be eligible for INDY rewards proportionally
+  to their pro-rata share of staked iAssets.
+\item
+  \textbf{Liquidity Distribution --} Users who provide
+  \protect\hyperlink{liquidity-staking-rewards}{liquidity} in DEXes and
+  stake their LP tokens in Indigo will be eligible for INDY rewards
+  proportionally to their pro-rata share of staked LP tokens.
+\end{itemize}
+
+\hypertarget{indy-distribution}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm,inkscapelatex=false]{
+images/tokenomics/distribution.svg}
+\caption{Distribution of INDY over five years}
+\end{figure}}
+
+\filbreak
+
+\hypertarget{fair-launch}{%
+\subsubsection{Fair Launch}\label{fair-launch}}
+
+Indigo has approached its tokenomics and launch from a new perspective,
+with a focus on gaining community trust first, allowing the protocol to
+be built with a vision of fairness. Early supporters of Indigo will be
+among the first receivers of INDY for use within the protocol. INDY will
+be distributed predominantly to users of the project, rather than
+investors or special insiders.
+
+After being in development for almost two years without investor
+funding, the initial Core Contributors of Indigo who have built the
+codebase -- and will continue to improve, optimize, and develop new
+features -- will receive tokens vested over two years beginning the day
+of mainnet launch. This is part of a Fair Launch to compensate work that
+up until now has not been compensated.
+
+Indigo has not minted, sold, allocated, distributed, or promised any
+tokens to third parties. The purpose of INDY is to be used within the
+protocol; until the launch of mainnet, there is or has been no use for
+INDY to be distributed or sold. Indigo's Fair Launch has helped
+alleviate community concerns over rug-pulling or the team not delivering
+a useful and highly functional product. No purchasing of tokens will be
+possible until the community has an opportunity to see and use Indigo
+for themselves.
+
+Indigo's Fair Launch is a novel approach to bootstrapping liquidity,
+allowing the Indigo community to become highly collaborative, driven,
+and vibrant. This is evidenced by the Indigo DAO Kickstart -- an effort
+to decentralize the launch of Indigo -- which has received wide praise.
+This approach bolsters Indigo's core tenet of decentralization, making
+the launch itself a decentralized decision involving possibly thousands
+of individuals from around the world. Indigo will be governed by the
+community immediately upon launch. There will be no barriers for use.
+Anyone, regardless of traits, will be able to gain benefit from Indigo's
+iAssets. Indigo has established a new framework to allow for
+community-led projects to come to life, which will be used to generate
+INDY in as fair of a manner as possible.
+
+\hypertarget{token-generation-event}{%
+\subsubsection{Token Generation Event}\label{token-generation-event}}
+
+Indigo's Token Generation Event (the ``TGE'') will occur upon the
+beginning of, and at no point prior to, deployment of the Indigo
+Protocol to mainnet (which is currently anticipated to be November
+20\textsuperscript{th}, 2022). Upon minting of INDY, the Initial Token
+Distribution (the ``ITD'') will be as follows:
+
+\begin{itemize}
+\item
+  350,000 INDY to two or three DEXs approved by the Indigo community
+\item
+  350,000 INDY to participants within the Indigo community
+\item
+  21,000,000 INDY to one or more wallets (administrated by Indigo
+  Laboratories, Inc. at the direction of the Indigo Foundation on behalf
+  of the \protect\hyperlink{governance}{Indigo DAO}) to be used for the
+  sole purpose of community rewards distributions
+  (\protect\hyperlink{stability-pool-staking-rewards}{Stability Pools},
+  \protect\hyperlink{liquidity-staking-rewards}{Liquidity}, and
+  \protect\hyperlink{staking}{Governance})
+\item
+  4,550,000 INDY to the \protect\hyperlink{indigo-dao-treasury}{DAO
+  Treasury Reserve}
+\item
+  8,750,000 INDY will be allocated to Indigo Laboratories, Inc. for past
+  and expected future building, administering, and further developing
+  the protocol, with 7,875,000 being distributed to team members under a
+  two-year monthly vesting schedule
+\end{itemize}
+
+\hypertarget{indy-piechart}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=10cm,inkscapelatex=false]{
+images/tokenomics/piechart.svg}
+\caption{Allocation of INDY}
+\end{figure}}
+
+At launch, the circulating supply of INDY\footnote{A full detailed
+  spreadsheet of the distribution of INDY with specific dates and
+  allocations can be found in the open source
+  \href{https://github.com/IndigoProtocol/indy-tokenomics}{indy-tokenomics}
+  project.} will be 1,903,125; 350,000 of which being allocated to
+Cardano DEXs via an Initial Liquidity Event.
+
+\hypertarget{initial-liquidity-event}{%
+\subsubsection{Initial Liquidity Event}\label{initial-liquidity-event}}
+
+Indigo's Initial Liquidity Event (the ``ILE'') will distribute and make
+INDY publicly available. The ILE will consist of three phases in
+conjunction with the launch of Indigo:
+
+\begin{enumerate}
+\item
+  Airdrop
+\item
+  Liquidity Bootstrapping Event (the ``LBE'')
+\item
+  Liquidity Pool Creation
+\end{enumerate}
+
+\hypertarget{indigo-airdrop}{%
+\paragraph{Indigo Airdrop}\label{indigo-airdrop}}
+
+Indigo's airdrop will distribute 350,000 INDY to participants within the
+Indigo community. The airdrop will consist of two phases:
+
+\begin{enumerate}
+\item
+  Distribution to early participants of the Indigo community
+\item
+  Distribution to stakers supporting the decentralization of Cardano and
+  Indigo
+\end{enumerate}
+
+Each phase will be distributed 175,000 INDY. Cardano wallet addresses
+have been collected by Indigo Laboratories, Inc. (the ``Labs'') and will
+be forwarded to Vending Machine.\footnote{\href{https://vm.adaseal.eu/about}{Vending
+  Machine} is a Cardano token distribution system.} The Labs will send
+350,000 INDY to Vending Machine, who will subsequently distribute INDY
+to qualified recipients via the Indigo Web App.
+
+To redeem airdropped INDY, qualified users will need to connect their
+wallet to the Indigo Web App and follow the in-app instructions to
+withdraw INDY into their wallets. Users will be able to determine
+whether they qualify for the airdrop upon connecting their wallets and
+navigating to the appropriate reward page. Users will have until March
+31\textsuperscript{st} 2023 to withdraw their INDY rewards into their
+wallets. Any INDY not withdrawn by this time will not be eligible to be
+withdrawn by users and instead will be subject to redistribution by the
+Labs.
+
+Members or affiliates of the Labs or Indigo Foundation make no promises
+on the distribution of tokens. No action or series of actions guarantees
+a user to receive INDY.
+
+\hypertarget{airdrop-1-distribution-to-early-participants}{%
+\paragraph{Airdrop 1: Distribution to Early
+Participants}\label{airdrop-1-distribution-to-early-participants}}
+
+Qualified participants for Airdrop 1 fit into either one of two
+categories:
+
+\begin{enumerate}
+\item
+  Participants who showed their interest by successfully completing each
+  of the processes, which were:
+
+  \begin{enumerate}
+  \item
+    Participate in Indigo's
+    \href{https://forum.indigoprotocol.io/t/indigo-initial-token-distribution-vote/1399}{first
+    temperature check} in the Indigo Forum
+  \item
+    Connect their Indigo Forum account with their Discord account
+  \item
+    Complete the \href{https://quiz.indigoprotocol.io/}{Indigo Quiz} to
+    become an Indigo Guru
+  \end{enumerate}
+\item
+  Participants who aided the Indigo community, as identified by the
+  Labs' team
+\end{enumerate}
+
+172,751.924982 INDY is to be distributed to wallets that fit into the
+first category, and 2,248.07304 INDY is to be distributed to wallets
+that fit into the second category. A total of 3,458 wallets qualified
+for the first category, and 30 wallets qualified for the second
+category.
+
+Addresses deemed to be suspicious or fraudulent were removed from the
+first category.
+
+\hypertarget{airdrop-2-distribution-to-decentralization-stakers}{%
+\paragraph{Airdrop 2: Distribution to Decentralization
+Stakers}\label{airdrop-2-distribution-to-decentralization-stakers}}
+
+175,000 INDY will be distributed as a reward to users who helped boost
+decentralization of the Cardano network by staking with a member of the
+\href{https://singlepoolalliance.net/}{Cardano Single Pool Alliance}
+(CSPA). To have qualified for receiving this reward, a user had to have
+been staking a minimum of 10 ADA in one of 357 pools on November
+6\textsuperscript{th}, 2022. A total of 79,679 wallets qualified to be
+eligible to withdraw rewards. Each user who connects a qualified wallet
+to the Indigo Web App will be eligible for a one-time withdrawal of 5
+INDY on a first come first serve basis.
+
+\hypertarget{indigo-liquidity-bootstrapping-event-and-liquidity-pool-creation}{%
+\paragraph{Indigo Liquidity Bootstrapping Event and Liquidity Pool
+Creation}\label{indigo-liquidity-bootstrapping-event-and-liquidity-pool-creation}}
+
+In partnership with \href{https://minswap.org/}{Minswap}, Indigo will
+begin a Liquidity Bootstrapping Event (the ``LBE'') on November
+14\textsuperscript{th} 2022\footnote{More information about Indigo's LBE
+  will be available on
+  \href{https://indigoprotocol1.medium.com/}{Indigo's Medium}.}. The
+goal of the LBE is to use a decentralized and transparent process to
+discover a fair price for INDY. After the LBE starts, users can deposit
+ADA into the Minswap Launch Bowl. Deposited ADA will be used to create
+INDY/ADA Liquidity Pools (a ``LP'').
+
+The Minswap LP will consist of 75\% of deposited ADA in the LBE paired
+with 262,500 INDY. Depending on slippage analysis at the time of the LBE
+end date of November 20\textsuperscript{th} 2022, 25\% of deposited ADA
+in the LBE paired with 87,500 INDY will be used to create LPs on either
+one or two DEXs approved by the Indigo community.
+
+\hypertarget{stability-pools}{%
+\subsection{Stability Pools}\label{stability-pools}}
+
+A Stability Pool (a ``SP'') helps maintain iAsset solvency by acting as
+the source of liquidity to repay debt from liquidated CDPs, thus
+intending all minted iAsset supply to remain overcollateralized.
+
+Every supported iAsset has its own SP (e.g., iBTC SP, iETH SP). A user
+can deposit corresponding iAsset into a SP to become a SP staker (a ``SP
+staker''). SP stakers provide stability to the protocol by offering
+their iAssets to be used for liquidations.
+
+SP Liquidation (``SPL'') is the process of utilizing a SP to liquidate a
+CDP, where iAsset deposited in a SP are burned to repay the debt of an
+undercollateralized CDP. In exchange, SP stakers earn a share of the
+collateral that was confiscated from liquidated CDPs. When CR falls
+below the iAsset MCR, the CDP is considered insolvent and subject to
+liquidation, which amounts to canceling the debt where:
+
+\begin{enumerate}
+\item
+  the same amount of iAsset debited by the CDP is burned from the
+  corresponding SP; and
+\item
+  the collateral from the CDP is proportionally distributed to SP
+  stakers.
+\end{enumerate}
+
+As CDPs become liquidated, SP stakers lose a pro-rata share of their
+iAsset deposits while gaining a pro-rata share of the liquidated
+collateral. An incentive for SP stakers to participate in SPL is the
+possibility of earning net gains from liquidations. Under normal
+circumstances, the value of the collateral earned may be greater than
+the value of the canceled debt, because a liquidated CDP is likely to
+have a CR value above 100\% (the value of the iAsset).
+
+SPL first requires that CDPs are frozen. Each liquidation request of a
+CDP is executed against its iAsset's associated single SP. Optionally,
+users can make requests for CDPs to be merged. As illustrated in the
+\protect\hyperlink{cdp-merge-figure}{CDP merge figure}, three CDPs could
+be merged into a single CDP. The resulting merged CDP can then be
+liquidated against the SP. While only a single liquidation can occur per
+SP at once, multiple CDPs can be merged in parallel. Merging CDPs
+effectively enables multiple frozen CDPs to be liquidated
+simultaneously.
+
+\hypertarget{cdp-merge-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=10cm,inkscapelatex=false]{images/merge-cdp.svg}
+\caption{Three CDPs being merged into one}
+\label{cdp-merge-figure}
+\end{figure}}
+
+Indigo allows for both full and partial liquidations. A full
+liquidation, as illustrated in the \protect\hyperlink{spl-figure}{SPL
+figure}, repays all debt of a CDP and closes the CDP. A partial
+liquidation, as illustrated in the
+\protect\hyperlink{spl-figure}{partial SPL figure}, repays some debt of
+a CDP and keeps the remaining position frozen. If a CDP debt is higher
+than the entire amount of iAssets in the related SP, the protocol
+attempts to cancel as much debt as possible with the iAsset supply
+available. Any remaining non-liquidated collateral and debt of the CDP
+remains frozen until more iAsset is deposited into the SP and another
+liquidation is initiated.
+
+\hypertarget{spl-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=7cm,inkscapelatex=false]{images/spl.svg}
+\caption{Illustration of a full liquidation where sufficient funds are
+present in the SP}
+\label{spl-figure}
+\end{figure}}
+
+\hypertarget{partial-spl-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=7cm,inkscapelatex=false]{images/partial-spl.svg}
+\caption{Illustration of a partial liquidation where there are
+insufficient funds present in the SP}
+\label{partial-spl-figure}
+\end{figure}}
+
+\filbreak
+
+Values for the liquidated CDP and associated SP can be calculated using:
+
+\[w = a - min\left\{ a,b \right\}\]
+\[x = d - min\left\{ a,e \right\}\frac{d}{a}\]
+\[y = e - min\left\{ a,e \right\}\]
+\[z = g + min\left\{ a,e \right\}\frac{d}{a}\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(w\) is the updated debt of the CDP after liquidation
+\item
+  \(x\) is the updated amount of collateral in the CDP after liquidation
+\item
+  \(y\) is the updated amount of iAsset in the SP after liquidation
+\item
+  \(z\) is the updated amount of ADA rewarded to the SP after
+  liquidation
+\item
+  \(a\) is the amount of debt of the CDP before liquidation
+\item
+  \(b\) is the amount of iAsset in the SP
+\item
+  \(d\) is the amount of collateral in the CDP before liquidation
+\item
+  \(e\) is the amount of iAsset in the SP before liquidation
+\item
+  \(g\) is the amount of ADA rewarded to the SP before liquidation
+\end{itemize}
+
+\hypertarget{stability-pool-staking-fees}{%
+\subsubsection{Stability Pool Staking
+Fees}\label{stability-pool-staking-fees}}
+
+Users can stake and unstake iAssets from SPs at any time. To stake
+iAsset, a user needs to create a SP account by depositing 7 ADA and the
+amount of iAsset they desire to stake. 2 ADA is returnable to the user
+upon closing the SP account, which involves withdrawing all their iAsset
+and earned rewards. 5 ADA is taken as a fee. Users pay a 1 ADA fee for
+each new iAsset deposit into their SP account.
+
+SP fees are collected and distributed to all SP stakers as part of
+liquidation rewards.
+
+\hypertarget{stability-pool-liquidation-rewards}{%
+\subsubsection{Stability Pool Liquidation
+Rewards}\label{stability-pool-liquidation-rewards}}
+
+As liquidations occur, SP stakers lose a pro-rata share of iAsset
+deposits and gain a pro-rata share of ADA rewards. A SP ``product
+constant'' maintains mathematical state of liquidations occurred. When a
+SP is first created, its product constant is set to one. Upon
+liquidation, the product constant can be calculated using the formula:
+
+\[c=a\left ( 1 - \frac{b}{d} \right )\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(c\) is the new product constant
+\item
+  \(a\) is the current product constant
+\item
+  \(b\) is the amount of iAsset debited from the SP for the liquidation
+\item
+  \(d\) is the total amount of iAsset in the SP
+\end{itemize}
+
+A SP ``compounded constant'' maintains the mathematical state of rewards
+earned from liquidations relative to the product constant. When a SP is
+first created, its compounded constant is zero. Upon liquidation, the
+compounded constant can be calculated using the formula:
+
+\[r = a + \frac{bc}{d}\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(r\) is the new compounded constant
+\item
+  \(a\) is the current compounded constant
+\item
+  \(b\) is the amount of ADA earned during the liquidation
+\item
+  \(c\) is the product constant before the liquidation
+\item
+  \(d\) is the total amount of iAsset in the SP before the liquidation
+\end{itemize}
+
+When an action is taken against a SP, such as a deposit of an iAsset or
+a liquidation, its state is updated. The SP state data structure --
+represented in the \protect\hyperlink{stability-pool-state}{SP state
+table} -- is stored within the UTXO of the SP; ``iAsset Deposit''
+records the number of iAsset in the SP deposited by all users.
+
+A SP epoch ends when all iAsset from a SP is drained via liquidations.
+Epoch is a running tally of the number of occurrences there have been
+when the SP's total iAsset deposit reached zero. Upon updating the SP
+state, if the total iAsset in the SP is to be set to zero, then this
+marks the end of an epoch. At the end of an epoch, the following occurs:
+
+\begin{itemize}
+\item
+  Epoch is recorded in a UTXO paired with the compounded constant value
+  after the latest liquidation
+\item
+  The SP state is updated with the values:
+
+  \begin{itemize}
+  \item
+    epoch incremented by one;
+  \item
+    product constant set to one; and
+  \item
+    compounded constant set to zero.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{stability-pool-state}{}
+
+\begin{tabularx}{\linewidth}{l|l}
+\caption{State stored upon updates to a SP}
+\tabularnewline
+\toprule
+\textbf{Name} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Product Constant} & The new product constant
+(\(c\))
+\tabularnewline
+\midrule
+\textbf{Compounded Constant} & The new compounded reward
+(\(r\))
+\tabularnewline
+\midrule
+\textbf{iAsset Deposit} & The updated amount of iAsset deposited into
+the SP
+\tabularnewline
+\midrule
+\textbf{Epoch} & The current epoch
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{stability-deposits}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=8cm,inkscapelatex=false]{images/stability-deposits.svg}
+\caption{iAsset being deposited into a new SP}
+\label{stability-deposits}
+\end{figure}}
+
+When a user deposits iAsset into a SP, a SP staker ``account record'' is
+created or updated for that user's account. The account record is
+represented the same as SP state and stored within the UTXO of the SP
+staker's position; iAsset Deposit records the number of iAssets owned
+individually by the SP staker. All other values for the account record
+are copied from the SP state.
+
+\hypertarget{stability-liquidation}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=7cm,inkscapelatex=false]{images/stability-liquidation.svg}
+\caption{SP state being updated after a liquidation occurs}
+\label{stability-liquidation}
+\end{figure}}
+
+\filbreak
+
+During a liquidation, iAsset is extracted from a SP. Proportionally, the
+ownership share of the iAsset within each SP staker's position is
+reduced. If the epoch in the account record matches the epoch in the SP
+state, the amount of iAsset an individual SP staker holds can be
+calculated using:
+
+\[m = a\frac{c}{b}\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(m\) is the amount of iAsset owed to the SP staker
+\item
+  \(a\) is the amount of iAsset the SP staker deposited (retrieved from
+  the account record)
+\item
+  \(c\) is the current product constant (retrieved from the SP state)
+\item
+  \(b\) is the product constant when the SP staker deposited their
+  iAsset (retrieved from the account record)
+\end{itemize}
+
+\hypertarget{stability-user-rewards}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=10cm,inkscapelatex=false]{images/stability-user-rewards.svg}
+\caption{SP staker rewards after a liquidation has occurred}
+\label{stability-user-rewards}
+\end{figure}}
+
+If the epoch in the account record does not match the epoch in the SP
+state, then the amount of iAsset owned to the SP staker (\(m\)) is zero.
+This is due to all the user's iAsset having been burned during a
+previous epoch.
+
+\hypertarget{stability-epoch}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=10cm,inkscapelatex=false]{images/stability-epoch.svg}
+\caption{Illustration of a new SP epoch beginning after
+a liquidation drains all iAsset}
+\label{stability-epoch}
+\end{figure}}
+
+\hypertarget{stability-user-epoch-rewards}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=10cm,inkscapelatex=false]{images/stability-user-epoch-rewards.svg}
+\caption{SP staker rewards after SP has been
+drained and a new epoch has begun}
+\label{stability-user-epoch-rewards}
+\end{figure}}
+
+During a liquidation, an ADA reward is deposited into the SP.
+Proportionally, the share of ADA rewards each SP staker is owed
+increases. The formula to calculate how much ADA an individual SP staker
+is rewarded from the SP is:
+
+\[l = a\frac{r - d}{b}\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(l\) is the amount of ADA owed to the SP staker
+\item
+  \(a\) is the amount of iAsset the SP staker deposited (retrieved from
+  the account record)
+\item
+  \(r\) is the current compounded constant (retrieved from the SP state
+  or recorded compounded constant for the matching epoch)
+\item
+  \(d\) is the compounded constant when the SP staker deposited their
+  iAsset (retrieved from the account record)
+\item
+  \(b\) is the product constant when the SP staker deposited their
+  iAsset (retrieved from the account record)
+\end{itemize}
+
+If an account record's epoch does not match the epoch of the SP state,
+then \(r\) is set to the latest recorded compounded constant for the
+epoch. This is due to the compounding constant resetting to zero after
+an epoch ends, therefore all SP staker positions during that epoch would
+be closed because all their iAsset would have been utilized during
+liquidations.
+
+When a SP staker modifies their position, either by depositing or
+withdrawing iAsset or ADA reward, then their previous position is
+considered closed, and a new position is created. If a user withdraws
+all their iAsset, then a new position is not opened. The SP state is
+also updated to reflect the new deposit or withdrawal, i.e., the iAsset
+Deposit is updated by the amount of iAsset deposited or withdrawn.
+
+\hypertarget{stability-pool-staking-rewards}{%
+\subsubsection{Stability Pool Staking
+Rewards}\label{stability-pool-staking-rewards}}
+
+SP stakers contribute to maintaining the solvency of the protocol and
+the iAsset pegs. In return for staking their iAsset, Indigo offers
+rewards in the form of ADA from liquidated CDPs and INDY.
+
+INDY is rewarded each Cardano epoch (every five days) and determined by
+the market cap of the iAsset as well as how much iAsset is being staked
+relative to other iAssets. The less iAsset that is staked in a SP
+relative to the total number of iAsset minted, the higher the INDY
+reward; the more iAsset that's staked, the less the INDY reward.
+
+\hypertarget{calculating-sp-indy-rewards}{%
+\paragraph{Calculating SP INDY
+rewards}\label{calculating-sp-indy-rewards}}
+
+is broken into two phases:
+
+\begin{enumerate}
+\item
+  Calculation of how much INDY is rewarded per SP
+\item
+  Calculation of SP staker's share of the SP's reward
+\end{enumerate}
+
+\begin{tabularx}{\linewidth}{l|r}
+\caption{Distribution schedule of INDY unlocked every epoch for
+Stability rewards}
+\tabularnewline
+\toprule
+\textbf{Beginning From} & \textbf{\# INDY per Epoch}
+\tabularnewline
+\midrule
+\endhead
+1-Dec-22 & 28,768
+\tabularnewline
+\midrule
+1-Dec-23 & 33,562
+\tabularnewline
+\midrule
+26-Sep-24 & 33,561
+\tabularnewline
+\midrule
+30-Nov-24 & 38,356
+\tabularnewline
+\midrule
+30-Nov-25 & 43,150
+\tabularnewline
+\midrule
+30-Nov-26 & 47,945
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{calculating-indy-rewarded-per-sp}{%
+\paragraph{Calculating INDY rewarded per
+SP}\label{calculating-indy-rewarded-per-sp}}
+
+is based on three variables:
+
+\begin{enumerate}
+\item
+  Standard deviation of the SP's iAsset's underlying asset (\(\sigma\))
+\item
+  Stability Pool Saturation (\(\varphi\))
+\item
+  Market cap of the SP's iAsset (\(\omega\))
+\end{enumerate}
+
+\hypertarget{standard-deviation-for-a-sp-sigma}{%
+\paragraph{\texorpdfstring{Standard deviation for a SP
+(\(\sigma\))}{Standard deviation for a SP (\textbackslash sigma)}}\label{standard-deviation-for-a-sp-sigma}}
+
+can be calculated using the formula:
+
+\[\sigma = \left\{ \begin{matrix}
+  \sqrt{\genfrac{}{}{}{}{\raisebox{5pt}{$\sum_{i = 1}^{\left| x \right|}\left( x_{i}\  - \ \overline{x} \right)^{2}$}}{\raisebox{-5pt}{$\left| x \right|$}}} & \text{if\ }\left| x \right| > 30 \\ \\
+  0 & \text{if\ }\left| x \right| \leq 30 \\
+  \end{matrix} \right.\ \]
+
+Where:
+
+\begin{itemize}
+\item
+  \(\sigma\) is the SP's standard deviation
+\item
+  \(x\) is the set of the iAsset's tracked asset's historical daily
+  close price for the past year (or maximum amount of time that data
+  exists for)
+\end{itemize}
+
+\filbreak
+
+\hypertarget{stability-pool-saturation-varphi}{%
+\paragraph{\texorpdfstring{Stability Pool Saturation
+(\(\varphi\))}{Stability Pool Saturation (\textbackslash varphi)}}\label{stability-pool-saturation-varphi}}
+
+can be calculated by taking the SP's deposits and dividing by the
+iAsset's total supply:
+
+\[\varphi = \left\{ \begin{matrix}
+  \genfrac{}{}{}{}{\raisebox{5pt}{$\sum_{i = 1}^{\left| a \right|}a_{i}$}}{\raisebox{-5pt}{$b$}} & \text{if\ }c \geq d + 6 \\ \\
+  0 & \text{if\ }c < d + 6 \\
+  \end{matrix} \right.\ \]
+
+Where:
+
+\begin{itemize}
+\item
+  \(\varphi\) is the SP's saturation
+\item
+  \(a\) is the collection of iAsset deposits in the SP
+\item
+  \(b\) is the total supply of the iAsset
+\item
+  \(c\) is the current epoch number
+\item
+  \(d\) is the epoch number the iAsset was launched during
+\end{itemize}
+
+\filbreak
+
+\hypertarget{market-cap-omega}{%
+\paragraph{\texorpdfstring{Market cap
+(\(\omega\))}{Market cap (\textbackslash omega)}}\label{market-cap-omega}}
+
+can be calculated by taking the total number of the SP's iAsset minted
+and multiplying by the price of the iAsset's tracked asset's price:
+
+\[\omega = \left\{ \begin{matrix}
+  ab & \text{if\ }c \geq d + 6 \\ \\
+  0 & \text{if\ }c < d + 6 \\
+  \end{matrix} \right.\ \]
+
+Where:
+
+\begin{itemize}
+\item
+  \(\omega\) is the SP's iAsset market cap
+\item
+  \(a\) is the total number of iAsset that have been minted
+\item
+  \(b\) is the price of the iAsset's tracked asset
+\item
+  \(c\) is the current epoch number
+\item
+  \(d\) is the epoch number the iAsset was launched during
+\end{itemize}
+
+\filbreak
+
+\hypertarget{the-amount-of-indy-to-be-distributed-to-a-sp}{%
+\paragraph{The amount of INDY to be distributed to a
+SP}\label{the-amount-of-indy-to-be-distributed-to-a-sp}}
+
+is calculated based on a value of \(\rho\), representing an average of
+\(\sigma\), \(\varphi\), and \(\omega\), and is calculated daily using:
+
+\[\rho = \left\{ \begin{matrix}
+  \genfrac{}{}{}{}{\raisebox{5pt}{$\genfrac{}{}{}{}{\raisebox{7pt}{$1 / \sigma$}}{\raisebox{-7pt}{$\sum_{i = 1}^{\left| a \right|}\left\{ \begin{matrix}
+    \\
+    1 / a_{i} & \text{if\ }a_{i} > 0 \\ \\
+    0 & \text{if\ }a_{i} = 0 \\ \\
+    \end{matrix} \right.\ $}} + \genfrac{}{}{}{}{\raisebox{7pt}{$1 / \varphi$}}{\raisebox{-7pt}{$\sum_{i = 1}^{\left| b \right|}\left\{ \begin{matrix}
+    \\
+    1 / b_{i} & \text{if\ }b_{i} > 0 \\ \\
+    0 & \text{if\ }b_{i} = 0 \\ \\
+    \end{matrix} \right.\ $}} + \genfrac{}{}{}{}{\raisebox{7pt}{$\omega$}}{\raisebox{-7pt}{$\sum_{i = 1}^{\left| c \right|}c_{i}$}}$}}{\raisebox{-5pt}{$3$}} & if\ \sigma > 0\text{\ and\ }\varphi > 0\text{\ and\ }\omega > 0 \\
+  & \\
+  \genfrac{}{}{}{}{\raisebox{7pt}{$1 / \sigma$}}{\raisebox{-7pt}{$\sum_{i = 1}^{\left| a \right|}\left\{ \begin{matrix}
+    \\
+    1 / a_{i} & \text{if\ }a_{i} > 0 \\ \\
+    0 & \text{if\ }a_{i} = 0 \\ \\
+    \end{matrix} \right.\ $}} & \text{if\ }\sigma > 0\text{\ and\ }\varphi = 0\ and\ \omega = 0 \\
+  & \\
+  0 & \text{otherwise} \\
+  \end{matrix} \right.\ \]
+
+Where:
+
+\begin{itemize}
+\item
+  \(\rho\) is the distribution value for the SP
+\item
+  \(a\) is the collection of each SP's \(\sigma\)
+\item
+  \(b\) is the collection of each SP's \(\varphi\)
+\item
+  \(c\) is the collection of each SP's \(\omega\)
+\item
+  \(\sigma\) is the SP's standard deviation
+\item
+  \(\varphi\) is the SP's saturation
+\item
+  \(\omega\) is the SP's iAsset market cap
+\end{itemize}
+
+\hypertarget{the-amount-of-indy-to-distribute-to-each-sp}{%
+\paragraph{The amount of INDY to distribute to each
+SP}\label{the-amount-of-indy-to-distribute-to-each-sp}}
+
+can be calculated based off each SP's daily calculated \(\rho\):
+
+\[a = \rho\frac{c}{5}\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(a\) is the amount of INDY to distribute to the SP for a particular
+  day within the epoch
+\item
+  \(\rho\) is the distribution value for the SP for a particular day
+  within the epoch
+\item
+  \(c\) is the amount of INDY being distributed to all SPs for the epoch
+\end{itemize}
+
+\filbreak
+
+\hypertarget{calculating-indy-reward-per-sp-staker}{%
+\paragraph{Calculating INDY reward per SP
+staker}\label{calculating-indy-reward-per-sp-staker}}
+
+is based on the \(a\) for the user's SP and the amount of time the user
+was staked in the SP:
+
+\[k = \left\{ \begin{matrix}
+  a \cfrac{b}{\sum_{i = 1}^{\left| c \right|}\left\{ \begin{matrix}
+    \\
+    c_{i} & \text{if\ }d_{i} \geq 24 \\ \\
+    0 & \text{if\ }d_{i} < 24 \\ \\
+    \end{matrix} \right.\ } & \text{if\ }e \geq 24 \\ \\
+  0 & \text{if\ }e < 24 \\
+  \end{matrix} \right.\ \]
+
+Where:
+
+\begin{itemize}
+\item
+  \(k\) is the amount of INDY to distribute to the SP staker for a
+  particular day during the epoch
+\item
+  \(a\) is the amount of INDY to distribute to the SP for a particular
+  day within the epoch
+\item
+  \(b\) is the total amount of iAsset staked by the SP staker
+\item
+  \(c\) is the collection of iAsset amounts staked by all SP stakers
+\item
+  \(d\) is the collection of hours all SP stakers have been staking
+  iAsset for
+\item
+  \(e\) is the total hours the LP staker has been staking their LP
+  tokens for
+\end{itemize}
+
+\hypertarget{total-amount-of-indy-to-distribute-to-the-sp-staker}{%
+\paragraph{Total amount of INDY to distribute to the SP
+staker}\label{total-amount-of-indy-to-distribute-to-the-sp-staker}}
+
+is calculated by summing all the \(k\) values calculated during each day
+of the epoch:
+
+\[a = \left\{ \begin{matrix}
+  \sum_{i = 1}^{5}b_{i} & \text{if\ }c \geq 24 \\ \\
+  0 & \text{if\ }c < 24 \\
+  \end{matrix} \right.\ \]
+
+Where:
+
+\begin{itemize}
+\item
+  \(a\) is the amount of INDY to distribute to the SP staker for the
+  epoch
+\item
+  \(b\) is the collection of \(k\) values calculated each day of the
+  epoch
+\item
+  \(c\) is the total hours the SP stakers has been staking iAsset for
+\end{itemize}
+
+SP stakers can withdraw their accumulated INDY staking rewards (the sum
+of \(a\) for each epoch they're owed rewards) via the Indigo Web App.
+Unclaimed rewards are withdrawable for three months. Any rewards not
+claimed within three months after being rewarded are redistributed to
+Members via the \protect\hyperlink{protocol-profit-sharing}{Collector}.
+
+\hypertarget{oracles}{%
+\subsection{Oracles}\label{oracles}}
+
+To determine the value of collateral held within CDPs and the intended
+prices of iAssets, Indigo makes use of Oracles\footnote{\href{https://chain.link/education/blockchain-oracles}{Oracles}
+  provide a way for decentralized blockchain applications to access
+  existing data sources.} available on Cardano. An Oracle queries
+external data sources for information and makes that information
+available on-chain.
+
+Indigo is designed to be Oracle agnostic, meaning that it can support
+any Oracle that publishes data on the Cardano blockchain so long as the
+data format conforms with the protocol's specifications defined in the
+\protect\hyperlink{cdp}{CDP} section.
+
+\hypertarget{liquidity-staking-rewards}{%
+\subsection{Liquidity Staking Rewards}\label{liquidity-staking-rewards}}
+
+A benefit of iAsset composability is that they can be provided as
+liquidity to any Decentralized Exchange (a ``DEX''). Having iAssets
+available on several DEXs is a key factor to promote Indigo's
+integration into the broader ecosystem, allowing other users to obtain
+and use iAssets without having to manage a CDP.
+
+Users who provide liquidity to DEXs receive tokens proving they have
+deposited iAssets (a ``LP token''). Indigo rewards users who provide
+iAsset liquidity by allowing them to stake their LP tokens in the
+protocol and receive INDY rewards.
+
+Stakers of LP tokens can unstake their tokens at any time. Members can
+vote on whitelisting a specific LP token to be eligible for staking
+rewards. Only double-sided LP tokens representing one iAsset and one
+non-iAsset token in equal proportions are allowable and eligible for
+rewards (e.g., iBTC/ADA LP token).
+
+\begin{tabularx}{\linewidth}{l|r}
+\caption{Distribution schedule of INDY unlocked every epoch for
+Liquidity rewards}
+\tabularnewline
+\toprule
+\textbf{Beginning From} & \textbf{\# INDY per Epoch}
+\tabularnewline
+\midrule
+\endhead
+21-Dec-22 & 4,795
+\tabularnewline
+\midrule
+21-Dec-23 & 9,590
+\tabularnewline
+\midrule
+11-Oct-24 & 9,589
+\tabularnewline
+\midrule
+20-Dec-24 & 14,383
+\tabularnewline
+\midrule
+20-Dec-25 & 19,178
+\tabularnewline
+\midrule
+20-Dec-26 & 23,972
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+INDY is rewarded to LP stakers each epoch and determined by the market
+cap of the iAsset as well as how much representative iAsset is being
+staked relative to other iAssets. The less representative iAsset that is
+staked in whitelisted LP tokens relative to the total number of iAsset
+minted, the higher the INDY reward; the more representative iAsset
+that's staked the less the INDY reward.
+
+\hypertarget{calculating-liquidity-rewards}{%
+\paragraph{Calculating Liquidity
+rewards}\label{calculating-liquidity-rewards}}
+
+is broken into two phases:
+
+\begin{enumerate}
+\item
+  Calculation of how many INDY is rewarded per iAsset
+\item
+  Calculation of LP staker's share of the iAsset reward
+\end{enumerate}
+
+\hypertarget{calculating-liquidity-saturation-varphi}{%
+\paragraph{\texorpdfstring{Calculating liquidity saturation
+(\(\varphi\))}{Calculating liquidity saturation (\textbackslash varphi)}}\label{calculating-liquidity-saturation-varphi}}
+
+requires taking the representative iAsset staked divided by the iAsset
+total supply:
+
+\[\varphi = \frac{\sum a}{b}\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(\varphi\) is the liquidity saturation
+\item
+  \(a\) is the set of total iAsset staked for each pool corresponding
+  with the set of whitelisted LP tokens for the iAsset
+\item
+  \(b\) is the total supply of the iAsset
+\end{itemize}
+
+\hypertarget{calculating-indy-rewarded-per-iasset}{%
+\paragraph{Calculating INDY rewarded per
+iAsset}\label{calculating-indy-rewarded-per-iasset}}
+
+for a day during an epoch is based on assessing the liquidity saturation
+comparative other iAssets in addition to the iAsset market caps:
+
+\[k = \left\{ \begin{matrix}
+  \frac{a}{5\left|b\right|} & \text{if\ }\varphi \geq 0.2\text{\ and\ }\varphi \leq 0.3 \\ \\
+  \begin{pmatrix}
+    \text{let\ }l = \sum_{i=0}^{\left| b \right|}\left\{\begin{matrix}
+    \frac{a}{5\left|b\right|} & \text{if\ }b\geq 0.2 \text{\ and\ }b \leq 0.3         \\ \\
+    0           & \text{otherwise}                                      \\
+    \end{matrix}\right. \\ \\
+    \text{let\ }m = \dfrac{1 / \varphi}{\sum_{i = 1}^{\left| b \right|}\left\{ \begin{matrix}
+    0           & \text{if\ }b_{i} \geq 0.2\text{\ and\ }b_{i} \leq 0.3 \\ \\
+    1 / b_{i}   & \text{otherwise}                                      \\
+    \end{matrix} \right.}\\ \\
+    \text{let\ }o = \dfrac{cd}{\sum_{i = 1}^{\left| b \right|}\left\{ \begin{matrix}
+    0           & \text{if\ }b_{i} \geq 0.2\text{\ and\ }b_{i} \leq 0.3 \\ \\
+    x_{i}y_{i}  & \text{otherwise}                                      \\
+    \end{matrix} \right.} \\ \\
+    \left( \frac{a}{5} - l\right) \left( m + o \right)
+  \end{pmatrix} & \text{otherwise} \\
+  \end{matrix} \right.\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(k\) is the amount of INDY to distribute to the iAsset's LP stakers
+  for a particular day within the epoch
+\item
+  \(a\) is the amount of INDY being distributed to all LP stakers for
+  the epoch
+\item
+  \(b\) is the collection of each iAsset's \(\varphi\)
+\item
+  \(c\) is the intended price of the iAsset
+\item
+  \(d\) is the total supply of the iAsset
+\item
+  \(x\) is the collection of intended iAsset prices of the corresponding
+  collection \(b\)
+\item
+  \(y\) is the collection of total iAsset supplies of the corresponding
+  collection \(b\)
+\end{itemize}
+
+\hypertarget{indy-to-distribute-to-an-individual-lp-staker}{%
+\paragraph{INDY to distribute to an individual LP
+staker}\label{indy-to-distribute-to-an-individual-lp-staker}}
+
+is calculated based on the staker's share of total iAsset staked:
+
+\[r=k\frac{xy/z}{b\sum_{i=1}^{\left| a \right|}a_{i}b_{i}/c_{i}}\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(r\) is the amount of INDY rewarded to the LP staker for a particular
+  day within the epoch
+\item
+  \(k\) is the amount of INDY to distribute to the iAsset's LP stakers
+  for a particular day within the epoch
+\item
+  \(a\) is the collection of staked amounts of LP tokens
+\item
+  \(b\) is the collection of total iAsset staked for pools corresponding
+  with the LP tokens in collection \(a\)
+\item
+  \(c\) is the collection of total supply of the corresponding LP tokens
+  collection \(a\)
+\item
+  \(x\) is the LP staker's amount LP tokens staked
+\item
+  \(y\) is the total iAsset staked in the LP staker's associated pool
+\item
+  \(z\) is the total supply of the LP tokens for the LP staker's
+  associated pool
+\end{itemize}
+
+\(r\) is calculated daily for each user, and the sum of all \(r\) values
+for each day is the amount of INDY the user is rewarded for the epoch:
+
+\[a = \sum_{i = 1}^{5}b_{i}\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(a\) is the amount of INDY rewarded to the LP staker the epoch
+\item
+  \(b\) is the collection of \(r\) values calculated for each day within
+  the epoch
+\end{itemize}
+
+LP stakers can withdraw their accumulated INDY staking rewards (the sum
+of \(a\) for each epoch they're owed rewards) via the Indigo Web App.
+Unclaimed rewards are withdrawable for three months. Any rewards not
+claimed within three months after being rewarded are redistributed to
+Members via the \protect\hyperlink{protocol-profit-sharing}{Collector}.
+
+\hypertarget{iasset-price-stability}{%
+\subsection{iAsset Price Stability}\label{iasset-price-stability}}
+
+\protect\hyperlink{synthetic-assets}{iAssets are pegged to tracked
+assets}. To maintain price pegs, Indigo relies on protocol rules to
+incentivize arbitrageurs and market forces to stabilize prices. These
+rules ensure that iAssets are always fully collateralized, giving
+further confidence to users that iAsset prices will match their
+counterparts.
+
+Periodically, Indigo receives price data from the outside world via
+\protect\hyperlink{oracles}{Oracles}. The rate at which price feeds are
+updated is configurable, and at launch will be set to once per hour.
+After price is updated, CRs are adjusted across the protocol, allowing
+for liquidations to occur for CDPs whose CR falls below the iAsset's
+MCR.
+
+If an iAsset drops in price relative to its peg, it provides CDP owners
+an opportunity to buy the iAsset to repay their loan at a discount. This
+can cause buying pressure on the iAsset to rise its price. If there is
+an abundance of iAsset supply, Indigo can increase MCR towards the
+iAsset mode CR.
+
+Each CDP has its own CR. The iAsset mode CR represents the most frequent
+CR value users select for their CDPs. By moving MCR towards the mode CR,
+probability of liquidation increases, incentivizing users to close their
+CDPs, which can cause iAsset buying pressure and reduced iAsset supply.
+
+A higher MCR results in a higher cost to mint iAsset supply, reduces the
+maximum leverage utilizable, and increases the margin of arbitrage value
+for Stability Pool stakers. This creates a disincentive to create new
+iAsset supply and incentivizes users to buy existing iAsset supply to
+stake into the Stability Pool. The reduction of supply paired with the
+increased buying pressure can push the iAsset price upwards.
+
+When an iAsset is first launched, its supply is zero, yet its demand may
+be high because users desire to purchase it. This causes an immediate
+supply and demand imbalance, potentially causing the iAsset to trade
+higher than its intended peg.
+
+A low MCR reduces the cost of minting iAsset supply and maximizes the
+leverage utilizable. This creates an incentive for users to create new
+iAsset supply, hence is why Indigo's iAssets will initially be launched
+with a MCR of 110\%. An iAsset MCR of 110\% forces the price of the
+iAsset to be no more than 10\% above its peg by creating an arbitrage
+opportunity. Users at any time can mint iAsset at a cost of 10\% higher
+than the iAsset's pegged price, allowing iAsset to be immediately sold
+if the market premium is higher than 10\%. iAsset trading above its peg
+also offers an opportunity to borrow at a lower cost, further
+incentivizing more supply to be minted and possibly creating additional
+sell pressure if users choose to take advantage of the leverage.
+
+If there is an abundance of iAsset demand and limited supply, Indigo can
+decrease MCR towards 100\%. This in turn reduces the cost of minting
+iAsset, pushing the price of the iAsset down. Indigo's quick liquidation
+mechanism via \protect\hyperlink{stability-pools}{Stability Pools}
+allows for high capital efficiency and support for very low
+collateralization while still providing incentive for users to
+participate in arbitrage. MCR value setting considers the average CR of
+iAssets, ensuring that iAssets are always overcollateralized
+irrespective of any market conditions or possible future events.
+
+\hypertarget{governance}{%
+\subsection{Governance}\label{governance}}
+
+Governance is the decentralized voting process through which
+\emph{proposals} for updating the protocol are introduced and either
+accepted or rejected by the community (collectively known as the
+``Indigo DAO''). All change to the protocol must go through governance.
+
+Indigo has a 3-pillar structure built for long term sustainability:
+
+\begin{enumerate}
+\item
+  \textbf{Indigo DAO --} Decentralized association of members governing
+  the protocol.
+\item
+  \textbf{Indigo Foundation --} Foundation Company incorporated in the
+  Cayman Islands for interacting with the real-world on behalf of the
+  Indigo DAO.
+\item
+  \textbf{Indigo Laboratories, Inc. --} A Wyoming corporation contracted
+  by the Indigo Foundation responsible for development of Indigo and
+  blockchain technologies.
+\end{enumerate}
+
+\hypertarget{indigo-dao}{%
+\subsubsection{Indigo DAO}\label{indigo-dao}}
+
+The Indigo DAO (the ``DAO'') is an informal non-jurisdictional,
+non-hierarchical, and nonprofit association of fluctuating individuals
+and entities who are uncoordinated and act together using a token. The
+DAO owns and controls the Indigo Protocol. All changes to the protocol
+must go through governance. Governance is the decentralized voting
+process through which proposals for updating the protocol are introduced
+and either accepted or rejected by the Indigo DAO Members.
+
+\protect\hyperlink{indy}{INDY} serves as Indigo DAO's utility token with
+one of its purposes being to allow voting on DAO proposals. Users who
+stake their INDY in Indigo's governance thereby become a DAO Member (a
+``Member'') and can vote on proposals.
+
+Members who wish to assist in managing the administrative and technical
+operations of Indigo (e.g.: organizing meetings of Members, submitting
+governance Proposals, or leading Working Groups) can be elected by other
+Members and become Core Contributors.
+
+\hypertarget{indigo-foundation}{%
+\subsubsection{Indigo Foundation}\label{indigo-foundation}}
+
+The Indigo Foundation (the ``Foundation'') entity provides an extremely
+flexible framework that supports off-chain functions necessary for
+executing the intent of the Indigo DAO. While the Indigo DAO is not a
+legal entity, the Foundation is, and therefore can enter into legal
+agreements with other real-world entities. The Foundation is established
+to help implement approved actions of the DAO that cannot otherwise be
+implemented in an automated or computational manner. The Foundation can
+engage with governmental authorities (for tax, regulatory, or other
+purposes), contract with vendors, and educate the community about Indigo
+-- all as directed by the DAO.
+
+The Foundation's authority is limited to implementing the votes of the
+DAO and otherwise supporting Indigo. The DAO may vote to amend the
+responsibilities of the Foundation at any time. The Foundation does not
+have possession of or control of any Indigo or user funds. The DAO is
+required to fund the Foundation and provide the Foundation with any
+tokens needed to make payments to third party vendors.
+
+\hypertarget{governance-process}{%
+\subsubsection{Governance Process}\label{governance-process}}
+
+An owner of INDY who chooses to stake INDY within Indigo becomes a
+Member and obtains the right to vote on proposals. A vote can be either
+in the form of yes, indicating favor of passing the proposal, or no,
+indicating favor of rejecting the proposal. Each Member receives voting
+power weighted by their amount of INDY staked.
+
+The Governance Process consists of three phases.
+
+\textbf{Step 1 -- Temperature Check}: A user creates and submits their
+idea to the \href{https://forum.indigoprotocol.io/}{Indigo Forum}. The
+idea will be reviewed by Moderators and Indigo Forum users for
+consistency with the Indigo DAO Constitution. Forum users will review
+and provide comments or suggested improvements to the idea, and
+eventually vote on it within the Forum.
+
+\textbf{Step 2 -- Proposal}: If a Temperature Check results in a
+positive outcome, a user needs to deposit INDY to submit a proposal
+on-chain. In addition, the user submitting the proposal should also
+create \protect\hyperlink{governance-sharding}{voting shards} by
+depositing some ADA. Voting shards will maintain a record of votes and
+are meant to enhance on-chain voting performance. Members can vote on
+the proposal using their staked INDY. Indigo's
+\protect\hyperlink{adaptive-quorum-biasing}{Adaptive Quorum Biasing}
+mechanism automatically adjusts the threshold to determine how many
+positive votes are required for the proposal to pass.
+
+\textbf{Step 3 -- Execution}: After a proposal's Voting Period ends, it
+moves to the execution phase. If the proposal passed, users could
+execute it and the proposal creator can retrieve their INDY deposit as
+well as their ADA deposit within each voting shard.
+
+If the proposal fails, the proposal is closed and the proposal creator
+loses their INDY deposit. The INDY is instead sent to the
+\protect\hyperlink{indigo-dao-treasury}{Treasury}.
+
+\hypertarget{staking}{%
+\subsubsection{Staking}\label{staking}}
+
+Users who stake their \protect\hyperlink{indy}{INDY} in Indigo's
+governance (thereby becoming a ``Member'') can vote on proposals. A vote
+can be either in the form of \emph{yes}, indicating favor of passing the
+proposal, or \emph{no}, indicating favor of rejecting the proposal. Each
+INDY staker receives voting power weighted by their amount of INDY
+staked and must either use either all or none of their voting power.
+
+When a Member votes on a proposal, their INDY stake is locked until that
+proposal's Voting Period has concluded (i.e., either approved, rejected,
+or expired). Locked INDY cannot be withdrawn from the protocol. If a
+Member votes on multiple proposals, their INDY is unlocked after the
+most recently created proposal they voted on concludes. If their INDY is
+in an unlocked state, then users can withdraw their INDY stake.
+
+After casting a vote, it cannot be changed or undone. Voting power is
+set to the total amount of INDY staked at the time of casting. If an
+Member deposits additional INDY into their position, they can use that
+INDY in addition to the existing locked INDY to vote on another proposal
+but cannot use that additional INDY to vote on a proposal they've
+already voted on. If the user deposits INDY after casting a vote and
+before casting another vote, then the INDY can be withdrawn. After
+depositing INDY and casting a vote for another proposal, all deposited
+INDY becomes locked and cannot be withdrawn until the end of the
+proposal.
+
+\hypertarget{governance-rewards}{%
+\subsubsection{Governance Rewards}\label{governance-rewards}}
+
+Members who participate in Governance by casting a vote at least once
+every ninety days (configurable itself by Member vote) are rewarded with
+INDY each epoch. Each epoch, INDY is unlocked and distributed to all
+qualifying Members. The amount of INDY each Member receives is based on
+the ratio of a Member's stake relative to the total amount of INDY
+staked, and can be calculated using:
+
+\[a = \frac{bc}{\sum_{i = 1}^{\left| m \right|}m_{i}}\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(a\) is the amount of INDY a Member is rewarded
+\item
+  \(b\) is the amount of INDY a Member has staked
+\item
+  \(c\) is the amount of INDY rewarded to all Members for the epoch
+\item
+  \(m\) is the collection of INDY amounts staked by all Members
+\end{itemize}
+
+\begin{tabularx}{\linewidth}{l|r}
+\caption{Distribution schedule of INDY unlocked every epoch for
+Governance rewards}
+\tabularnewline
+\toprule
+\textbf{Beginning From} & \textbf{\# INDY per Epoch}
+\tabularnewline
+\midrule
+\endhead
+6-Dec-22 & 2,398
+\tabularnewline
+\midrule
+6-Dec-23 & 3,596
+\tabularnewline
+\midrule
+5-Dec-24 & 4,795
+\tabularnewline
+\midrule
+13-Jul-25 & 4,794
+\tabularnewline
+\midrule
+5-Dec-25 & 5,993
+\tabularnewline
+\midrule
+5-Dec-26 & 7,191
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{adaptive-quorum-biasing}{%
+\subsubsection{Adaptive Quorum Biasing}\label{adaptive-quorum-biasing}}
+
+A proposal is considered passed when the ratio of \emph{yes} votes over
+\emph{no} votes exceeds the quorum threshold. Indigo uses a dynamic
+vote-threshold mechanism called Adaptive Quorum Biasing (``AQB'') to
+calculate the quorum threshold value. AQB lowers the quorum threshold as
+more INDY is used to vote. If voter participation is low, then a high
+majority of those votes must be in favor of the proposal. If voter
+participation is high, then a lower majority of those votes must be in
+favor of the proposal. Always at least 50\% of votes must be in favor of
+a proposal for it to pass.
+
+For example, if 29\% of all circulating supply of INDY is used to vote
+during a proposal's Voting Period, the quorum threshold for that
+proposal would be set to 66\%. This means that 66\% or more of the total
+INDY used for voting would be required to vote \emph{yes} for the
+proposal to be considered passed. If more than 34\% of the total INDY
+used for voting voted \emph{no}, then the proposal would fail.
+
+\hypertarget{quorum-threshold}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm,inkscapelatex=false]{images/aqb.svg}
+\caption{Illustration of quorum threshold decreasing as voter
+participation increases}
+\end{figure}}
+
+\filbreak
+
+To determine if a proposal is approved, the electorate (\emph{e}) first
+needs to be calculated. \emph{e} is INDY circulating supply at the time
+of a proposal's conclusion. INDY has a fixed distribution schedule, so
+\emph{e} can be derived by taking the launch time of the protocol, the
+end time of the proposal, and other values related to Indigo's token
+distribution schedule set at the time of protocol launch.
+
+To calculate \emph{e} the following logic can be used:
+
+\[e = \begin{pmatrix}
+  f:\left( a,b \right) \mapsto \begin{pmatrix}
+  \text{let\ }x\text{\ equal\ }\min\left\{ \left\lfloor \frac{d - l}{5} \right\rfloor - a + 1,73\left| b \right| \right\} \\
+  \\
+  \left\{ \begin{matrix}
+  \sum_{i = 1}^{x}\begin{pmatrix}
+  \text{let\ }y\text{\ equal}\left\lfloor t\frac{b_{\left\lceil \frac{i}{73} \right\rceil}}{73} \right\rfloor \\
+  \\
+  \left\{ \begin{matrix}
+  y + 1 & \text{if\ }i - 1 < \left\lfloor t\sum_{}^{}b - \sum_{j = 1}^{\left| b \right|}{73\left\lfloor \frac{tb_{j}}{73} \right\rfloor} \right\rfloor \\
+  & \\
+  y & \text{otherwise} \\
+  \end{matrix} \right.\  \\
+  \end{pmatrix} & \text{if\ }x > 0 \\
+  & \\
+  0 & \text{if\ }x \leq 0 \\
+  \end{matrix} \right.\  \\
+  \end{pmatrix} \\
+  \\
+  \text{let\ }z\text{\ equal}\begin{pmatrix}
+  \text{let\ }x\text{\ equal\ }\min\left\{ \left\lfloor \frac{d - l - o}{365 \div 12} \right\rfloor + 1,q \right\} \\
+  \\
+  \left\{ \begin{matrix}
+  0 & \text{if\ }x < 0 \\
+  & \\
+  \left\lfloor \frac{tp}{q} \right\rfloor & \text{if\ }x = 0\text{\ and\ }d - l \geq 0 \\
+  & \\
+  \left\lfloor \frac{xtp}{q} \right\rfloor & \text{otherwise} \\
+  \end{matrix} \right.\  \\
+  \end{pmatrix} \\
+  \\
+  \sum_{i = 1}^{\left| a \right|}{f\left( a_{i},b_{i} \right)} + z + \left\{ \begin{matrix}
+  c & \text{if\ }d \geq l \\
+  0 & \text{if\ }d < l \\
+  \end{matrix} \right.\  \\
+  \end{pmatrix}\]\\
+Where:
+
+\begin{itemize}
+\item
+  \(a\) is a set of delays for token distribution schedules (set at
+  protocol launch)
+\item
+  \(b\) is a set of vesting distribution schedules (set at protocol
+  launch)
+\item
+  \(c\) is the amount of INDY unlocked upon Indigo mainnet launch (set
+  at protocol launch)
+\item
+  \(d\) is the date of the proposal's conclusion
+\item
+  \(l\) is the date of the first epoch after the launch of Indigo
+  mainnet (set at protocol launch)
+\item
+  \(o\) is the offset for the start of Indigo's team distribution (set
+  at protocol launch)
+\item
+  \(p\) is the percentage of INDY total supply allocated to the Indigo
+  team (set at protocol launch)
+\item
+  \(q\) is the total number of months the Indigo team distribution lasts
+  for (set at protocol launch)
+\item
+  \(t\) is the total supply of INDY (set at protocol launch)
+\end{itemize}
+
+\filbreak
+
+Vesting schedules defined by \(b\) are represented as a set of sets
+containing the percentage of token supply to be distributed per year,
+with each value in the subset representing an individual year. For
+example, consider the following set:
+
+\[b = \left\{ \left\{ 0.01,0.02,0.03 \right\},\left\{ 0.05,0.1 \right\} \right\}\]
+
+This defines two vesting schedules (two being the size of the set
+\(b\)). The first vesting schedule in \(b\), referenced as \(b_{1}\),
+describes a three-year vesting schedule (three being the size of the
+subset \(b_{1}\)), with the first year distributing 1\% (0.01 being 1\%)
+of total token supply, the second 2\%, and the third year 3\%, for a
+total of 6\% (0.06 being the sum of all values in the subset \(b_{1}\))
+of tokens distributed over the three years.
+
+Knowing \(e\), a proposal's approval status can be calculated using the
+formula:
+
+\[q = \left\lfloor \frac{v_{y}}{\sqrt{e}} - \frac{v_{n}}{\sqrt{v_{y} + v_{n}}} \right\rfloor\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(q\) is the vote threshold
+\item
+  \(e\) is the amount of INDY in circulation at time of the proposal's
+  conclusion
+\item
+  \(v_{y}\) is the number of \emph{yes} votes
+\item
+  \(v_{n}\) is the number of \emph{no} votes.
+\end{itemize}
+
+If \(q\) is larger than 0, the proposal is passed. If \(q\) is equal to
+or less than 0, the proposal is failed.
+
+\hypertarget{governance-sharding}{%
+\subsubsection{Governance Sharding}\label{governance-sharding}}
+
+Upon creation of a proposal, multiple voting UTXOs can be created to
+maintain records of votes. Each voting UTXO represents a shard. The
+total number of shards that can be created is defined by the \emph{Total
+Shards} protocol parameter.
+
+After creating a proposal, the proposal's creator can create shards, up
+to the number of Total Shards, by depositing ADA and submitting
+transactions. If, after the proposal creation time plus the time defined
+by the \emph{Proposing Period} protocol parameter, there are fewer
+shards created than Total Shards, then the proposal is considered
+expired.
+
+The amount of ADA required to deposit to create an individual shard is
+\(x\), as calculated and described in the
+\protect\hyperlink{minimum-ada-to-create-utxo}{Minimum ADA to Create
+UTXO section}. The proposal creator is required to deposit \(x\) ADA to
+create an individual shard. To prevent a proposal from expiring before
+all votes can be submitted, the proposal creator must deposit ADA
+totaling \(x\) multiplied by Total Shards. The deposited ADA is later
+returnable upon following correct voting procedures, as described in the
+\protect\hyperlink{governance-proposal-process}{Governance Proposal
+Process} section.
+
+To vote, an INDY staker selects a shard to track their allocation. Each
+shard records the total number of \emph{yes} and \emph{no} votes from
+users who voted using that shard. A shard can only record a vote from
+one user at a time. If a shard is in use by another user, then the user
+must select an alternative shard to use. If all shards are in use, then
+the user must wait until a shard becomes available.
+
+At the end of the Voting Period, the shards can be closed. Upon closing,
+all votes from each shard can be tallied, and the final vote counts can
+be used to calculate whether the proposal has passed.
+
+\filbreak
+
+\hypertarget{governance-shards}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=10cm,inkscapelatex=false]{images/governance-shards.svg}
+\caption{A voter selecting and casting their vote using a shard}
+\label{governance-shards}
+\end{figure}}
+
+\hypertarget{governance-merge-shards-tally}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=10cm,inkscapelatex=false]{images/governance-merge-shards.svg}
+\caption{Shards being merged to tally votes after a Voting Period
+has ended}
+\label{governance-merge-shards-tally}
+\end{figure}}
+
+\hypertarget{governance-proposal-types}{%
+\subsubsection{Governance Proposal
+Types}\label{governance-proposal-types}}
+
+Users can submit the following type of proposals:
+
+\begin{itemize}
+\item
+  \textbf{Whitelist an iAsset --} Propose that a new iAsset type be
+  supported by the protocol. Attributes such as the MCR and Oracle price
+  feed must be provided.
+\item
+  \textbf{Update an iAsset --} Propose that an existing iAsset's MCR
+  and/or Oracle price feed be updated. Nullifying an iAsset's Oracle
+  price feed causes that iAsset to be no longer mintable; therefore, it
+  is delisted from the protocol.
+\item
+  \textbf{Text --} Propose that the Indigo DAO should adopt a proposal
+  described textually. This formally records the DAO's intent on the
+  blockchain but is not executed computationally, i.e., the proposal's
+  executable message is non-actionable. A hash is stored on-chain, with
+  the hash able to represent a Content Identifier (CID)\footnote{A CID
+    is a self-describing
+    \href{https://github.com/multiformats/cid}{content-addressed
+    identifier} containing 32 characters. A CID can be used to
+    \href{https://filecoin.tools/}{lookup data} stored on decentralized
+    networks such as \href{https://filecoin.io/}{Filecoin}.} that
+  references data on an external storage network.
+\item
+  \textbf{Upgrade Protocol --} Propose that the protocol should be
+  upgraded to a new version.
+\item
+  \textbf{Update Protocol Parameters --} Propose that parameters
+  describing protocol behavior be updated. Updateable parameters are
+  shown in the \protect\hyperlink{protocol-parameters}{Protocol
+  Parameters} table.
+\end{itemize}
+
+\hypertarget{protocol-parameters}{%
+\subsubsection{Protocol Parameters}\label{protocol-parameters}}
+
+Protocol parameters are updateable via proposals and define some
+behaviors of the protocol. They exist as a map of values inside a UTXO.
+Users and protocol functions can reference the values of the latest
+defined protocol parameters to utilize within transactions.
+
+\begin{tabularx}{\linewidth}{l|L}
+\caption{Parameters that are updateable via an Update Protocol
+Parameters Governance Proposal}
+\tabularnewline
+\toprule
+\textbf{Parameter Name} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Effective Delay} & The number of seconds after a passed proposal
+closes before it becomes eligible for execution.
+\tabularnewline
+\midrule
+\textbf{Expiration Period} & The maximum number of seconds allowed after
+a passed proposal closes for it to be executed. If the proposal isn't
+executed in time, then the proposal is considered
+expired.
+\tabularnewline
+\midrule
+\textbf{Proposal Deposit} & The amount of INDY that is required to be
+deposited to create a proposal. If a proposal passes, the INDY deposit
+is returnable to the owner. If a proposal fails, the INDY deposit is
+non-returnable, and instead is only transferable to the
+\protect\hyperlink{indigo-dao-treasury}{DAO Treasury}.
+\tabularnewline
+\midrule
+\textbf{Proposing Period} & The maximum number of seconds allowed after
+a proposal is created for its shards to be created. If shards are not
+created by this time then the proposal fails and the creator loses their
+deposit.
+\tabularnewline
+\midrule
+\textbf{Protocol Fee Percentage} & The percentage of ADA to take as a
+protocol fee when withdrawing collateral from CDPs or redeeming SPL
+rewards.
+\tabularnewline
+\midrule
+\textbf{Total Shards} & The total number of
+\protect\hyperlink{governance-sharding}{Governance Shards} to utilize
+during Voting Periods of proposals.
+\tabularnewline
+\midrule
+\textbf{Voting Period} & The number of seconds a proposal remains open
+for voting after being created.
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{governance-proposal-process}{%
+\subsubsection{Governance Proposal
+Process}\label{governance-proposal-process}}
+
+Any user can create a proposal by depositing a fixed amount of INDY into
+the protocol. The amount of INDY required is determined by the value of
+the \emph{INDY Deposit} protocol parameter.
+
+Once submitted, the proposal becomes eligible for the proposal creator
+to create shards. After one or more shards are created for a proposal,
+it can be voted on by INDY stakers until that proposal's Voting Period
+has concluded.
+
+Proposals are recorded on-chain with an executable message encoding the
+specific effects of each one. Upon execution, the proposal will be
+processed with the full privileges of the governance contracts.
+
+The following steps outline the proposal lifecycle:
+
+\begin{enumerate}
+\item
+  A user creates a new proposal by depositing an amount of INDY that
+  equals the Proposal Deposit.
+\item
+  The proposal creator creates one or more shards, up to a maximum of
+  Total Shards, by depositing ADA. All shards must be created before the
+  Proposing Period ends for the proposal to pass.
+\item
+  The proposal enters the voting phase, where INDY stakers can vote
+  (\emph{yes}/\emph{no}) using their staked INDY positions. INDY of the
+  INDY stakers who vote remains locked until the \emph{Voting Period}
+  ends.
+\item
+  The Voting Period ends after more time has passed than the proposal's
+  creation time, plus time defined by the Voting Period protocol
+  parameter.
+\item
+  After the Voting Period has ended, the proposal can be closed by its
+  creator.
+\item
+  If the proposal passes, its executable contents can be executed by
+  users after a delay defined by the \emph{Effective Delay} protocol
+  parameter. The proposal must be executed prior to the time described
+  by the \emph{Expiration Period} protocol parameter; otherwise, the
+  proposal will be considered expired and no longer executable.
+\end{enumerate}
+
+Several actions can be taken against a proposal by users:
+
+\begin{itemize}
+\item
+  \textbf{Create --} Creates a proposal conforming to one of the allowed
+  \protect\hyperlink{governance-proposal-types}{Governance Proposal
+  Types}.
+\item
+  \textbf{Create Shard --} The owner of the proposal is expected to --
+  and can -- create one or more shards, up to a maximum of \emph{Total
+  Shards}. For a proposal to be eligible to pass, the number of shards
+  created must equal Total Shards. A shard is created by depositing ADA
+  alongside a request to create one. Shards can only be created from the
+  creation of the proposal up until the \emph{Proposing Period} ends.
+  Creating shards after the Proposing Period will cause the transaction
+  to fail.
+\item
+  \textbf{Merge Shards --} Users can merge two or more shards created
+  after the proposal's Voting Period ends and before the proposal is
+  closed. Upon merging, the owner is eligible to receive back the ADA
+  that was deposited to create each merged shard after the proposal is
+  closed.
+\item
+  \textbf{Close --} The owner of the proposal can close the proposal
+  after its Voting Period ends if the number of shards created is equal
+  to Total Shards, and after all shards have been merged. If the number
+  of shards created is less than Total Shards, then the proposal cannot
+  be closed until after the proposal expires. After the owner closes
+  their proposal, they receive back any ADA that was deposited to create
+  each shard. If a proposal expires before the owner closes the
+  proposal, then any user can close the proposal.
+\item
+  \textbf{Execute --} If a proposal is closed and has passed, any user
+  can execute it. Upon execution, the protocol runs the executable
+  message embedded within the proposal to apply changes to the protocol.
+\end{itemize}
+
+A proposal has the following states:
+
+\begin{itemize}
+\item
+  \textbf{Created --} After a proposal is created it is available for
+  the owner to create shards.
+\item
+  \textbf{Open --} When a proposal has one or more shards available then
+  it becomes available for INDY holders to vote on. If a proposal has at
+  least one shard but less than T\emph{otal Shards}, the proposal is
+  \emph{Open}.
+\item
+  \textbf{Active --} When a proposal has shards that equal \emph{Total
+  Shards}, all shards were created before the Proposing Period, and time
+  has not exceeded its \emph{Voting Period}, then the proposal is
+  \emph{Active}.
+\item
+  \textbf{Ended --} When a proposal has exceeded its \emph{Voting
+  Period}, then the proposal is \emph{Ended}.
+\item
+  \textbf{Merged --} When all the proposal's shards have been merged,
+  then the proposal is \emph{Merged}.
+\item
+  \textbf{Closed --} When a proposal is \emph{Ended,} and after a user
+  has made a submission for the proposal to close, then the proposal is
+  \emph{Closed}.
+\item
+  \textbf{Passed --} When a proposal is \emph{Closed} and the number of
+  \emph{yes} votes exceeds the quorum threshold, then the proposal is
+  \emph{Passed}.
+\item
+  \textbf{Failed --} When a proposal is \emph{Closed} and the number of
+  \emph{yes} votes does not exceed the quorum threshold, then the
+  proposal is \emph{Failed}.
+\item
+  \textbf{Expired --} When a proposal has exceeded its \emph{Execution
+  Period} without being executed, if the created shards are fewer than
+  Total Shards after the Voting Period, or if shards have been created
+  after the Proposing Period, then the proposal is \emph{Expired}.
+\item
+  \textbf{Executed --} When a proposal is \emph{Passed} and not
+  \emph{Expired}, then any user can execute the proposal. The proposal
+  then becomes \emph{Executed}.
+\end{itemize}
+
+\hypertarget{governance-proposal-lifecycle}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=18cm,inkscapelatex=false]{
+images/proposal-process-diagram.svg}
+\caption{Illustration of the proposal lifecycle}
+\end{figure}}
+
+\hypertarget{indigo-dao-treasury}{%
+\subsubsection{Indigo DAO Treasury}\label{indigo-dao-treasury}}
+
+The Indigo DAO owns and controls a DAO Treasury (the ``Treasury''). Upon
+minting of INDY, a portion of INDY (the amount is defined at protocol
+launch) is sent to the Treasury. The INDY in the Treasury is intended to
+be used for future versions of the protocol and controlled by the
+\protect\hyperlink{governance-1}{governance process}.
+
+To permanently identify the Indigo DAO on the Cardano blockchain, a NFT
+is minted as the official Indigo DAO identity token (``identity token'')
+and held in the Treasury. The identity token is transferred to wherever
+the latest version of the Treasury lives. The protocol transfers the
+identity token and INDY in the Treasury upon future protocol upgrades.
+
+\hypertarget{protocol-upgrade}{%
+\subsubsection{Protocol Upgrade}\label{protocol-upgrade}}
+
+Indigo is designed to be continually and incrementally upgraded. Instead
+of releasing distinct protocols that users may interact with
+individually, the Indigo Protocol exists as a singular protocol whose
+underlying validators may periodically be updated. From a user's
+perspective, the interaction is seamless, since they will only interact
+with one protocol, regardless of the version of Indigo Protocol that is
+live on the Cardano blockchain.
+
+A single protocol has been launched, and new features will be added to
+Indigo via approval from Members. Protocol upgrades are driven by the
+\protect\hyperlink{governance}{governance process}. To suggest new
+features, a Text proposal and development request must first be approved
+and authorized by the DAO. A development firm such as Indigo
+Laboratories will then begin work on building software to implement the
+new features.
+
+When software is ready for deployment, a request to upgrade is submitted
+to Indigo. Members can inspect the new code requested to be deployed and
+either approve or reject the proposal. Upon approval, the developing
+entity of the software can deploy the code to Cardano, and Indigo will
+be automatically upgraded to a new version. However, the code must match
+the code approved by Members, otherwise Indigo will not recognize the
+new features as authentic, and no upgrade will take place.
+
+After deployment and approval, individual user positions can be migrated
+from the old version to the new one. Some features may not be available
+until the user has migrated their positions. For example, if a user owns
+a CDP, they will be unable to add collateral to their CDP until they
+migrate their CDP to the new version of Indigo. To migrate a CDP, a user
+will have to pay a small transaction fee in the form of ADA and submit
+the migration request via the Indigo Web App. If a user chooses not to
+migrate a CDP, they will not be able to deposit more collateral or mint
+more iAsset; their CDP may become at risk of liquidation. Another user
+may opt to migrate a CDP subject to liquidation to perform the
+liquidation and confiscate the underlying collateral, with the original
+CDP owner losing their collateral.
+
+\hypertarget{upgrade-protocol}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm,inkscapelatex=false]{images/upgrade-protocol.svg}
+\caption{Illustration of an Upgrade Protocol proposal upgrading the
+CDP, SP, and Collector contracts}
+\end{figure}}
+
+\hypertarget{migrate-utxo}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm,inkscapelatex=false]{images/migrate-utxo.svg}
+\caption{Illustration of a UTXO migrating from an old validator to a
+new validator}
+\end{figure}}
+
+\hypertarget{upgrade-protocol-flowchart}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=14cm,inkscapelatex=false]{images/upgrade-protocol-process-diagram.svg}
+\caption{The process to upgrade the protocol}
+\end{figure}}
+
+\hypertarget{protocol-profit-sharing}{%
+\subsection{Protocol Profit Sharing}\label{protocol-profit-sharing}}
+
+As users create and close CDPs, and as CDPs are liquidated, a fee is
+collected. Members are rewarded by receiving a share of the collected
+fees. The fee is set to 2\% and modifiable by vote of Members.
+
+When a fee is collected, it is sent to the Collector smart contract. The
+Collector's purpose is to collect protocol fees and distribute them to
+INDY stakers. Users who stake their INDY are eligible to a share of all
+collected protocol fees, proportional to their share of total INDY
+staked.
+
+The Collector maintains a collection of UTXOs that can be used to store
+ADA. When a protocol fee is collected, such as during withdrawal of a
+liquidation reward, the user selects a UTXO from the Collector to send
+the fee to. The amount of ADA required to deposit to create a Collector
+UTXO is \(x\), as calculated and described in the
+\protect\hyperlink{minimum-ada-to-create-utxo}{Minimum ADA to Create
+UTXO section}. A Collector UTXO can be created by any user who deposits
+\(x\) ADA. Once deposited, a new UTXO is added to the Collector and the
+ADA cannot be withdrawn.
+
+\hypertarget{collector-utxo}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=10cm,inkscapelatex=false]{images/collector.svg}
+\caption{A user paying a fee to the Collector}
+\label{collector-utxo}
+\end{figure}}
+
+Users can request to gather fees from Collector UTXOs and collectively
+send them to the Staking Manager who is responsible for allowing INDY
+stakers to withdraw their share of owed fees, and will only accept
+deposits of fees if there are one or more INDY stakers. If no INDY is
+staked, then user requests to transfer fees from the Collector to the
+Staking Manager will fail.
+
+\hypertarget{collector-staking-manager}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=10cm,inkscapelatex=false]{images/collector-staking-manager.svg}
+\caption{Transferring collected fees to the Staking Manager}
+\label{collector-staking-manager}
+\end{figure}}
+
+\filbreak
+
+The Staking Manager keeps track of the number of INDY that are staked as
+well as a snapshot value. The snapshot value is a running total (with a
+precision of six decimals) of reward deposits updated each time ADA is
+transferred from the Collector to the Staking Manager, and can be
+calculated using:
+
+\[a = b + \frac{c}{d}\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(a\) is the new snapshot value to be stored by the Staking Manager,
+  truncated to six decimals
+\item
+  \(b\) is the current snapshot value stored by the Staking Manager
+\item
+  \(c\) is the amount of ADA deposited into the Staking Manager from the
+  Collector
+\item
+  \(d\) is the total amount of INDY staked in the Staking Manager
+\end{itemize}
+
+The snapshot value is initially set to zero. When a user stakes INDY,
+the current snapshot value is stored in the INDY staker's position, and
+the total amount of INDY staked is updated in the Staking Manager. When
+an INDY staker updates or closes their position, all rewards are
+withdrawn. INDY staker rewards can be calculated using:
+
+\[a = d\left( b - c \right)\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(a\) is the amount of ADA reward the user is owed
+\item
+  \(b\) is the current snapshot value stored by the Staking Manager
+\item
+  \(c\) is the snapshot value when the user staked their INDY
+\item
+  \(d\) is the amount of INDY the user has staked
+\end{itemize}
+
+\hypertarget{smart-contract-design}{%
+\section{Smart Contract Design}\label{smart-contract-design}}
+
+In Cardano's eUTXO model\footnote{\href{https://docs.cardano.org/learn/eutxo-explainer}{Cardano
+  utilizes the eUTXO model} to perform arbitrary logic permitted by
+  smart contracts.}, each transaction has inputs and outputs. An input
+is a UTXO that is an output of another transaction. Users interact with
+the protocol by performing actions and submitting transactions
+containing those actions to Protocol Endpoints. Submitted transactions
+are validated by the protocol's smart contracts (also known as
+validators). If a transaction is successfully validated (i.e.,
+permitted), then an action is put into effect by the transaction's
+execution.
+
+\hypertarget{diagram-legend}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=9cm]{images/endpoints/legend.svg}
+\caption{Legend for Protocol Endpoint transaction examples}
+\end{figure}}
+
+Protocol Endpoints allow users to interact with the protocol by
+performing a specific action such as
+\protect\hyperlink{collateralized-debt-positions}{opening a CDP},
+\protect\hyperlink{governance-proposal-process}{submitting a proposal},
+\protect\hyperlink{stability-pools}{depositing iAssets in a SP}, etc. A
+Protocol Endpoint can take input in the form of UTXOs. Input is provided
+either by consuming or referencing. To consume a UTXO is to spend the
+UTXO in whole within the transaction. By consuming the UTXO it allows
+change to the state of that UTXO, such as updating the balance. To
+reference a UTXO is to read the UTXO without change. Only one user can
+consume a single UTXO at a time, whereas many users can simultaneously
+reference UTXOs.
+
+Protocol Endpoints may perform actions in the form of minting or
+burning. Minting a token creates a new token and allows it to be used as
+input. Upon minting, the token may be stored in a UTXO containing datum
+that can be read for additional information. Burning a token destroys an
+existing token, making it no longer usable as input.
+
+Outputs are UTXOs that are created as an effect of a transaction. For
+example, a Protocol Endpoint may create an output to represent a user
+position or a pool of tokens. After an output is created it can be used
+as an input.
+
+Following are details for each Indigo smart contract, their tokens
+issued, parameter inputs, and outputs.
+
+For the described smart contract parameters, token types are in the form
+of \(Value.AssetClass\)\footnote{\href{https://playground.plutus.iohkdev.io/doc/haddock/plutus-ledger-api/html/Plutus-V1-Ledger-Value.html\#g:3}{An
+  asset class} is identified by currency symbol and token name.}. The
+smart contracts look for the UTXO with the token type and may read the
+datum of that UTXO for additional information.
+
+\hypertarget{cdp}{%
+\subsection{CDP}\label{cdp}}
+
+The CDP contracts are used to store the collateral used to mint iAssets.
+There are two contracts for managing CDPs: CDPCreator and CDP. The
+CDPCreator validates the creation of a user's CDP UTXO. The CDP contract
+is used to manage a user's individual position by validating actions
+such as storing collateral, minting iAssets, and performing SPL.
+
+\begin{tabularx}{\linewidth}{l|L|L}
+\caption{CDP native tokens}
+\tabularnewline
+\toprule
+\textbf{Name} & \textbf{Description} & \textbf{Minting
+Policy}
+\tabularnewline
+\midrule
+\endhead
+\textbf{CDPCreatorNFT}
+&
+Identifies the authentic CDPCreator output
+
+Validators ensure that this NFT always stays at the CDPCreator
+output
+&
+The protocol mints more than 1 token at initialization
+\tabularnewline
+\midrule
+\textbf{CDPToken} & Identifies an authentic CDP output & The transaction
+must spend CDPCreatorNFT or consume a CDPToken
+\tabularnewline
+\midrule
+\textbf{iAssetToken}
+&
+Identifies an authentic iAsset output, where datum is stored defining
+iAsset information including the OracleAssetNFT used to reference the
+latest price
+
+Validators ensure that this token always stays at an iAsset output
+&
+The transaction must consume GovNFT
+\tabularnewline
+\midrule
+\textbf{iAssets (iBTC, iETH, etc.)} & Synthetic version of BTC, ETH,
+etc. & The transaction must consume a CDPToken
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\begin{tabularx}{\linewidth}{l|L|L}
+\caption{CDP token inputs}
+\tabularnewline
+\toprule
+\textbf{Type} & \textbf{Description} & \textbf{Datum}
+\tabularnewline
+\midrule
+\endhead
+\textbf{OracleAssetNFT}
+&
+The NFT managed by an Oracle provider that's used to record price
+information for an iAsset
+&
+\emph{odPrice}: The price with six decimals of precision
+
+\emph{odExpiration}: The timestamp in which the oracle price
+expires
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{cdpcreator-parameters}{%
+\subsubsection{CDPCreator Parameters}\label{cdpcreator-parameters}}
+
+\begin{itemize}
+\item
+  \texttt{cdpCreatorNFT~::~CDPCreatorNFT}. NFT for identifying authentic
+  CDPCreator output.
+\item
+  \texttt{cdpAssetCs~::~CurrencySymbol}. Currency symbol for the minting
+  policy of iAssets.
+\item
+  \texttt{cdpAuthTk~::~CDPToken}. Token for identifying authentic CDP
+  output.
+\item
+  \texttt{iAssetAuthTk~::~iAssetToken}. Token for identifying authentic
+  iAsset output including datum with the iAsset name, MCR, and
+  OracleAssetNFT reference to find the latest price for the asset.
+\item
+  \texttt{versionRecordToken~::~VersionRecordToken}. Token for
+  identifying the version record for a protocol upgrade.
+\item
+  \texttt{cdpScriptHash~::~ValidatorHash}. Hash of CDP script, used for
+  verifying the output of a CDP.
+\end{itemize}
+
+\hypertarget{cdp-parameters}{%
+\subsubsection{CDP Parameters}\label{cdp-parameters}}
+
+\begin{itemize}
+\item
+  \texttt{cdpAuthToken~::~CDPToken}. Token for identifying authentic CDP
+  output.
+\item
+  \texttt{cdpAssetSymbol~::~CurrencySymbol}. Currency symbol for the
+  minting policy of iAssets.
+\item
+  \texttt{iAssetAuthToken~::~iAssetToken}. Token for identifying
+  authentic iAsset output.
+\item
+  \texttt{stabilityPoolAuthToken~::~StabilityPoolToken}. Token
+  identifying authentic SP output.
+\item
+  \texttt{versionRecordToken~::~VersionRecordToken}. Token for
+  identifying the version record for a protocol upgrade.
+\item
+  \texttt{upgradeToken~::~UpgradeToken}. Token for identifying proposal
+  Upgrade tokens to update iAsset output.
+\item
+  \texttt{collectorValHash~::~ValidatorHash}. The validator hash for the
+  Collector contract.
+\item
+  \texttt{govNFT~::~GovNFT}. NFT for identifying authentic governance
+  parameters.
+\item
+  \texttt{spValHash~::~ValidatorHash}. The validator hash for the SP
+  contract.
+\end{itemize}
+
+\begin{tabularx}{\linewidth}{l|L|L|L}
+\caption{CDP outputs}
+\tabularnewline
+\toprule
+\textbf{Type} & \textbf{Description} & \textbf{Datum} &
+\textbf{Values}
+\tabularnewline
+\midrule
+\endhead
+\textbf{CDPCreator}
+&
+Many CDPCreator outputs exist for the protocol
+
+To create a CDP output, this output must be consumed
+&
+
+&
+\emph{CDPCreatorNFT}: 1
+\tabularnewline
+\midrule
+\textbf{CDP}
+&
+Each CDP output represents an individual position
+&
+\emph{cdpOwner}: The public key hash that owns this CDP
+
+\emph{cdpIAsset}: The type of iAsset associated with this CDP
+
+\emph{cdpMintedAmount}: Amount of iAsset minted from this position
+&
+\emph{CDPToken}: 1
+
+\emph{ADA}: collateral locked in this position
+\tabularnewline
+\midrule
+\textbf{iAsset}
+&
+Each iAsset output represents an iAsset
+&
+\emph{iaName}: the name of iAsset
+
+\emph{iaMinRatio}: The minimum collateral ratio of iAsset
+
+\emph{iaPrice}: Either the final price for the delisted asset or the
+OracleAssetNFT used to reference the price feed
+&
+\emph{iAssetToken}: 1
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{cdp-endpoints}{%
+\subsubsection{CDP Endpoints}\label{cdp-endpoints}}
+
+\hypertarget{cdp-open}{%
+\subparagraph{CDP: Open}\label{cdp-open}}
+
+Creates a CDP associated with an iAsset type
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & CreateCDP, takes as parameters a public key
+hash corresponding to a user's wallet, amount of iAssets to mint, and
+ADA collateral to deposit
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & CDPCreator UTXO
+\tabularnewline
+\midrule
+\textbf{Consume} & 1+ & ADA to be used as collateral
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & iAsset UTXO that identifies the iAsset to
+mint
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & UTXO containing the OracleAssetNFT with a datum
+describing the iAsset price
+\tabularnewline
+\midrule
+\textbf{Mint} & \(\infty\) & The minted iAsset tokens (dependent on the
+ADA deposited, iAsset MCR determined from the iAsset UTXO, and iAsset
+price)
+\tabularnewline
+\midrule
+\textbf{Mint} & 1 & CDPToken that identifies a user's
+position
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & CDPCreator UTXO
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & CDP UTXO that represents a user's
+CDP
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & The UTXO sent to the user's wallet containing the
+minted iAsset
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{cdp-open-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/CDP/CDP-Open-Position.svg}
+\caption{Example of creating a CDP with 500 ADA and minting 100 iAsset}
+\label{cdp-open-figure}
+\end{figure}}
+
+\hypertarget{cdp-deposit-collateral}{%
+\subparagraph{CDP: Deposit Collateral}\label{cdp-deposit-collateral}}
+
+Deposit ADA collateral into an existing CDP
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & AdjustCDP
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & CDP UTXO that represents the user's current
+position
+\tabularnewline
+\midrule
+\textbf{Consume} & 1+ & UTXOs containing ADA from the user's wallet to
+be used as collateral
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & iAsset UTXO that serves to identify the iAsset
+that the CDP is for
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & CDP UTXO that represents the user's adjusted
+CDP
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & New UTXO to the user wallet returning change (if
+any)
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{cdp-deposit-collateral-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/CDP/CDP-Deposit-Collateral.svg}
+\caption{Example of depositing an additional 500 ADA into an
+existing CDP}
+\label{cdp-deposit-collateral-figure}
+\end{figure}}
+
+\hypertarget{cdp-withdraw-collateral}{%
+\subparagraph{CDP: Withdraw Collateral}\label{cdp-withdraw-collateral}}
+
+Withdraw ADA collateral from an existing CDP
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & AdjustCDP
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & CDP UTXO that represents the user's current
+position
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Collector UTXO that may already contain fees
+previously collected
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & iAsset UTXO that serves to identify the iAsset
+should be minted
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & UTXO containing the OracleAssetNFT with a datum
+describing the iAsset price
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & CDP UTXO that represents the user's adjusted
+position
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Collector UTXO that contains a portion of the
+withdrawn collateral (taken as a fee)
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & A new UTXO to the user wallet containing the
+withdrawn collateral
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\filbreak
+
+\hypertarget{cdp-withdraw-collateral-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/CDP/CDP-Withdraw-Collateral.svg}
+\caption{Example of withdrawing 500 ADA from a CDP and paying a 10
+ADA fee}
+\label{cdp-withdraw-collateral-figure}
+\end{figure}}
+
+\hypertarget{cdp-close}{%
+\subparagraph{CDP: Close}\label{cdp-close}}
+
+Closes an existing CDP
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & CloseCDP
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & Collect
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & CDP UTXO that represents the user's current
+position
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Collector UTXO that may already contain fees
+previously collected
+\tabularnewline
+\midrule
+\textbf{Consume} & 1+ & UTXOs from the user's wallet containing iAsset
+tokens of the same type as the CDP
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & iAsset UTXO that serves to identify the iAsset
+the CDP is for
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & UTXO containing the OracleAssetNFT with a datum
+describing the iAsset price
+\tabularnewline
+\midrule
+\textbf{Burn} & \(\infty\) & iAssets that were sent by the
+user
+\tabularnewline
+\midrule
+\textbf{Burn} & 1 & CDPtoken
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Collector UTXO that contains a portion of the CDP
+collateral (taken as a fee)
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & A new UTXO to the user wallet containing the total
+collateral (minus the fee)
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{cdp-close-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/CDP/CDP-Close-Position.svg}
+\caption{Example of closing a CDP and paying a 10 ADA fee}
+\label{cdp-close-figure}
+\end{figure}}
+
+\hypertarget{cdp-mint-iasset}{%
+\subparagraph{CDP: Mint iAsset}\label{cdp-mint-iasset}}
+
+Mints iAsset using an existing CDP
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & AdjustCDP
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & CDP UTXO that represents the user's current
+position
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & iAsset UTXO that serves to identify the iAsset
+the CDP is for
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & UTXO containing the OracleAssetNFT with a datum
+describing the iAsset price
+\tabularnewline
+\midrule
+\textbf{Mint} & \(\infty\) & iAsset tokens the user selected to
+mint
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & CDP UTXO that represents the user's adjusted
+CDP
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & A new UTXO to the user wallet containing the newly
+minted iAsset tokens
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{cdp-mint-iasset-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/CDP/CDP-Mint-Asset.svg}
+\caption{Example of using a CDP to mint 100 iAsset}
+\label{cdp-mint-iasset-figure}
+\end{figure}}
+
+\hypertarget{cdp-burn-iasset}{%
+\subparagraph{CDP: Burn iAsset}\label{cdp-burn-iasset}}
+
+Burns iAsset using an existing CDP
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & AdjustCDP
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & CDP UTXO that represents the user's current
+position
+\tabularnewline
+\midrule
+\textbf{Consume} & 1+ & UTXOs from the user's wallet containing the
+iAsset tokens to be burned
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & iAsset UTXO that serves to identify the iAsset
+that the CDP is for
+\tabularnewline
+\midrule
+\textbf{Burn} & \(\infty\) & The iAsset tokens the user requested to
+burn
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & CDP UTXO that represents the user's adjusted
+position
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & New UTXO to the user wallet returning change (if
+any)
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{cdp-burn-iasset-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/CDP/CDP-Mint-Asset.svg}
+\caption{Example of using a CDP to burn 50 iAsset}
+\label{cdp-burn-iasset-figure}
+\end{figure}}
+
+\hypertarget{cdp-freeze}{%
+\subparagraph{CDP: Freeze}\label{cdp-freeze}}
+
+Makes an existing CDP no longer interactable by its creator if it is
+insolvent
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & FreezeCDP
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & CDP UTXO that represents the user's current
+position
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & iAsset UTXO that serves to identify the iAsset
+the CDP is for
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & UTXO containing the OracleAssetNFT with a datum
+describing the iAsset price
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & CDP UTXO that represents the frozen
+CDP
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & New UTXO to the user wallet returning change (if
+any)
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{cdp-freeze-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/CDP/CDP-Freeze-CDP.svg}
+\caption{Example of freezing a CDP, thereby removing the creator as
+an owner}
+\label{cdp-freeze-figure}
+\end{figure}}
+
+\hypertarget{cdp-liquidate}{%
+\subparagraph{CDP: Liquidate}\label{cdp-liquidate}}
+
+Withdraws ADA collateral from a CDP and transfers it to a SP if the CDP
+is frozen
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & Liquidate
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & LiquidateCDP
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & CDP UTXO that represents the frozen CDP to
+liquidate
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & SP UTXO that contains iAsset tokens to repay the
+debt
+\tabularnewline
+\midrule
+\textbf{Burn} & 0/1 & If all debt is repaid, then the CDPToken of the
+frozen CDP is burned
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & SP UTXO that with the added collateral from the
+frozen CDP
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{cdp-liquidate-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/CDP/CDP-Liquidate-CDP.svg}
+\caption{Example of a CDP with a debt of 50 iAsset and collateral
+of 500 ADA being liquidated, with the collateral being transferred
+to the Stability Pool, and the iAsset from the Stability Pool
+being burned}
+\label{cdp-liquidate-figure}
+\end{figure}}
+
+\hypertarget{cdp-merge}{%
+\subparagraph{CDP: Merge}\label{cdp-merge}}
+
+Closes one or more CDPs and transfers all CDP state into a single CDP
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & NergeCDPs
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & MergeAuxiliary, takes a CDP UTXO as a
+parameter which identifies the main UTXO to keep and have others UTXOs
+merged into
+\tabularnewline
+\midrule
+\textbf{Consume} & 2+ & CDP UTXOs of the frozen CDPs
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & CDP UTXO representing all the frozen CDPs
+combined
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{cdp-merge-utxo-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/CDP/CDP-Merge-CDPs.svg}
+\caption{Example of 5 CDPs being merged together}
+\label{cdp-merge-utxo-figure}
+\end{figure}}
+
+\hypertarget{stability-pool}{%
+\subsection{Stability Pool}\label{stability-pool}}
+
+The SP contract is used as a pool of iAssets to be used for liquidation.
+It is important to understand how the Snapshot works to understand how
+the liquidations and account withdrawals work.
+
+\begin{tabularx}{\linewidth}{l|L|L}
+\caption{Stability Pool native tokens}
+\tabularnewline
+\toprule
+\textbf{Name} & \textbf{Description} & \textbf{Minting
+Policy}
+\tabularnewline
+\midrule
+\endhead
+\textbf{StabilityPoolToken} & Identify the authentic StabilityPool
+output & The transaction must spend GovNFT
+\tabularnewline
+\midrule
+\textbf{AccountToken} & Identify an authentic StabilityPoolAccount
+output & The transaction must spend StabilityPoolToken
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{stability-pool-parameters}{%
+\subsubsection{Stability Pool
+Parameters}\label{stability-pool-parameters}}
+
+\begin{itemize}
+\item
+  \texttt{assetSymbol~::~CurrencySymbol}. The minting policy for
+  iAssets.
+\item
+  \texttt{stabilityPoolToken~::~StabilityPoolToken}. The token
+  identifying an authentic SP output.
+\item
+  \texttt{accountToken~::~StabilityPoolToken}. The token identifying an
+  authentic SP Account output.
+\item
+  \texttt{cdpToken~::~CDPToken}. Token for identifying authentic CDP
+  output.
+\item
+  \texttt{versionRecordToken~::~VersionRecordToken}. Token for
+  identifying the version record for a protocol upgrade.
+\item
+  \texttt{collectorValHash~::~ValidatorHash}. The validator hash for the
+  collector contract.
+\item
+  \texttt{govNFT~::~GovNFT}. NFT for identifying authentic governance
+  parameters
+\end{itemize}
+
+\begin{tabularx}{\linewidth}{l|L|L|L}
+\caption{Stability Pool outputs}
+\tabularnewline
+\toprule
+\textbf{Type} & \textbf{Description} & \textbf{Datum} &
+\textbf{Values}
+\tabularnewline
+\midrule
+\endhead
+\textbf{StabilityPool}
+&
+Each StabilityPool output holds iAssets to be used for
+liquidations
+&
+\emph{spIAsset}: The name of the iAsset that this SP is for
+
+\emph{spSnapshot}: The snapshot of funds for the SP. See Snapshot
+
+\emph{epochToScaleToSum}: A map of the sum of funds for a particular
+epoch and scale
+&
+\emph{StabilityPoolToken}: 1
+
+\emph{iAsset}: Funded by stability providers
+
+\emph{ADA}: Collateral transferred to SP from liquidated CDPs
+\tabularnewline
+\midrule
+\textbf{EpochToScaleToSum}
+&
+Archives EpochToScaleToSum records
+&
+\emph{sessSnapshot}: A snapshot of EpochToScaleToSum
+
+\emph{sessAsset}: The name of the iAsset that this snapshot is for
+&
+\emph{SnapshotToken}: 1
+\tabularnewline
+\midrule
+\textbf{Account}
+&
+Each Account output holds a range of iAsset flavors
+&
+\emph{accOwner}: The owner of the SP Account
+
+\emph{accIAsset}: The name of the iAsset that this SP Account is for
+
+\emph{accSnapshot}: The snapshot of funds from the SP at the time of
+deposit
+&
+\emph{AccountToken}: 1
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{sp-endpoints}{%
+\subsubsection{SP Endpoints}\label{sp-endpoints}}
+
+\hypertarget{sp-create-account}{%
+\subparagraph{SP: Create Account}\label{sp-create-account}}
+
+Creates an account with a SP the first time a user deposits iAsset
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & CreateAccount, takes as a parameter a public
+key hash corresponding to a user's wallet and an amount of iAsset to
+stake
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & SP UTXO representing the global state for the
+iAsset type being deposited
+\tabularnewline
+\midrule
+\textbf{Mint} & 1 & Account Token representing the user's SP
+position
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & SP UTXO with the updated global
+state
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Account UTXO holding the user's Account
+Token
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{sp-create-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Stability Pool/Create-Account.svg}
+\caption{Example of a user making their first deposit into a
+Stability Pool, depositing 50 iAsset, 2 ADA, and paying a 5 ADA
+fee}
+\label{sp-create-figure}
+\end{figure}}
+
+\hypertarget{sp-add-iasset}{%
+\subparagraph{SP: Add iAsset}\label{sp-add-iasset}}
+
+Adds more iAsset to user's SP account
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & AdjustAccount, takes as a parameter an amount
+of iAsset
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & SpendAccount
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & SP UTXO representing the global
+state
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Account UTXO representing the user's Stability
+Pool account to be adjusted
+\tabularnewline
+\midrule
+\textbf{Consume} & 1+ & UTXOs containing the user's iAsset to be
+deposited into their SP account
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & SP UTXO with the updated global
+state
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Account UTXO representing the user's updated SP
+account
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{sp-adjust-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Stability Pool/Adjust-Account.svg}
+\caption{Example of a user depositing 50 iAsset into the Stability
+Pool, paying a 1 ADA fee}
+\label{sp-adjust-figure}
+\end{figure}}
+
+\hypertarget{sp-close-account}{%
+\subparagraph{SP: Close Account}\label{sp-close-account}}
+
+Closes a user's SP account
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & Close
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & SpendAccount
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Stability Pool UTXO representing the global
+state
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Account UTXO representing the user's Stability
+Pool account to be closed
+\tabularnewline
+\midrule
+\textbf{Burn} & 1 & Account Token representing the user's former
+Stability Pool account
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Stability Pool UTXO with the updated global
+state
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & UTXO containing the iAsset that was deposited in
+the Stability Pool account
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{sp-close-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Stability Pool/Close-Account.svg}
+\caption{Example of a user withdrawing 100 iAsset from the
+Stability Pool}
+\label{sp-close-figure}
+\end{figure}}
+
+\hypertarget{stability-pool-recordepochtoscaletosum}{%
+\subparagraph{Stability Pool:
+RecordEpochToScaleToSum}\label{stability-pool-recordepochtoscaletosum}}
+
+Archives EpochToScaleToSum records
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & RecordEpochToScaleToSum
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & SP UTXO representing the global
+state
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Account UTXO representing the user's Stability
+Pool account to be closed
+\tabularnewline
+\midrule
+\textbf{Burn} & 1 & Account Token representing the user's former SP
+account
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & SP UTXO with the updated global
+state
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & UTXO containing the iAsset that was deposited in
+the SP account
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{staking-1}{%
+\subsection{Staking}\label{staking-1}}
+
+The Staking contract is used primarily by the Indigo DAO Governance
+package for proving the ownership of INDY tokens and locking those
+tokens upon voting. The Staking contract also includes functionality to
+collect protocol fees from Collector UTXOs.
+
+\begin{tabularx}{\linewidth}{l|L|L}
+\caption{Staking native tokens}
+\tabularnewline
+\toprule
+\textbf{Name} & \textbf{Description} & \textbf{Minting
+Policy}
+\tabularnewline
+\midrule
+\endhead
+\textbf{StakingManagerNFT}
+&
+The NFT identifies the authentic StakingManager output
+
+The NFT must be stored in the StakingManager output
+
+Validator scripts ensure that this NFT always stays at the
+StakingManager output
+&
+The protocol mints exactly 1 token, before launch
+\tabularnewline
+\midrule
+\textbf{StakingToken} & Identify the authentic StakingPosition output &
+The transaction must consume a StakingManagerNFT or a
+StakingToken
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{parameters}{%
+\subsubsection{Parameters}\label{parameters}}
+
+\begin{itemize}
+\item
+  \texttt{stakingManagerNFT~::~StakingManagerNFT}. NFT of
+  StakingManager.
+\item
+  \texttt{stakingToken~::~StakingToken}. Token for identifying authentic
+  Staking Position output.
+\item
+  \texttt{indyToken~::~INDY}.
+\item
+  \texttt{pollToken~::~PollToken}. Token identifying authentic Poll
+  output.
+\item
+  \texttt{versionRecordToken~::~VersionRecordToken}. Token identifying
+  the VersionRegistry output.
+\item
+  \texttt{collectorValHash~::~ValidatorHash}. The collector script, used
+  as a bridge between Staking and Poll Script.
+\item
+  \texttt{cdpToken~::~CDPToken}. Necessary for OffChain Endpoint to
+  construct CollectorScriptParams.
+\end{itemize}
+
+\begin{tabularx}{\linewidth}{l|L|L|l}
+\caption{Staking outputs}
+\tabularnewline
+\toprule
+\textbf{Type} & \textbf{Description} & \textbf{Datum} &
+\textbf{Values}
+\tabularnewline
+\midrule
+\endhead
+\textbf{StakingManager}
+&
+Only one output of this type is stored in the script
+
+To create a StakingPosition output, the user must consume this output in
+the transaction
+&
+\emph{totalStake}: The total amount of staked INDY
+
+\emph{mSnapshot}: The snapshot of ADA rewards for INDY stakers
+&
+\emph{StakingManagerNFT}: 1
+\tabularnewline
+\midrule
+\textbf{StakingPosition} & An individual user's INDY staking position &
+\emph{owner}: The owner of the staking position \emph{lockedAmount}: A
+map of Poll ID to (Vote Amount, Proposal End Time) \emph{pSnapshot}: The
+snapshot of ADA rewards for the INDY staker & \emph{StakingToken}:
+1
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{staking-endpoints}{%
+\subsubsection{Staking Endpoints}\label{staking-endpoints}}
+
+\hypertarget{staking-create}{%
+\subparagraph{Staking: Create}\label{staking-create}}
+
+Creates a user's staking position
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & CreateStakingPosition
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Staking Manager UTXO representing the global
+state of staking positions
+\tabularnewline
+\midrule
+\textbf{Consume} & 1+ & UTXOs containing the user's INDY to be
+staked
+\tabularnewline
+\midrule
+\textbf{Mint} & 1 & Staking Token representing the user's staking
+position
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Staking Manager UTXO with the updated global
+state
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Staking Position UTXO holding the user's Staking
+Token
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{staking-create-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Staking/Create-Staking-Position.svg}
+\caption{Example of a user staking INDY for the first time,
+depositing 50 INDY}
+\label{staking-create-figure}
+\end{figure}}
+
+\hypertarget{staking-unstake}{%
+\subparagraph{Staking: Unstake}\label{staking-unstake}}
+
+Unstakes a user's staking position
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & UpdateTotalStake
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & Unstake
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Staking Manager UTXO representing the global
+state of staking positions
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Staking Position UTXO representing the user's
+staking position
+\tabularnewline
+\midrule
+\textbf{Burn} & 1 & Staking Token representing the user's former staking
+position
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Staking Manager UTXO with the updated global
+state
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & UTXOs containing the user's previously staked
+INDY
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{staking-unstake-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Staking/Unstake.svg}
+\caption{Example of a user unstaking 50 INDY}
+\label{staking-unstake-figure}
+\end{figure}}
+
+\hypertarget{staking-stake}{%
+\subparagraph{Staking: Stake}\label{staking-stake}}
+
+Adds more INDY to a user's staking position
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & UpdateTotalStake
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & AdjustStakedAmount
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Staking Manager UTXO representing the global
+state of staking positions
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Staking Position UTXO representing the user's
+staking position
+\tabularnewline
+\midrule
+\textbf{Consume} & 1+ & UTXOs containing the INDY to be
+staked
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Staking Manager UTXO with the updated global
+state
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Staking Position UTXO representing the user's
+updated staking position
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{staking-stake-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Staking/Stake.svg}
+\caption{Example of a user staking an additional 50 INDY}
+\label{staking-stake-figure}
+\end{figure}}
+
+\hypertarget{staking-distribute}{%
+\subparagraph{Staking: Distribute}\label{staking-distribute}}
+
+Distributes fees from the Collector to the Staking Manager
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & Distribute
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & Collect
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Staking Manager UTXO representing the global
+state of staking positions
+\tabularnewline
+\midrule
+\textbf{Consume} & 1+ & Collector UTXOs containing the fees to
+distribute
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Staking Manager UTXO with the updated global
+state
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{staking-distribute-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Staking/Distribute.svg}
+\caption{Example of fees from the Collector being distributed to
+the Staking Manager}
+\label{staking-distribute-figure}
+\end{figure}}
+
+\hypertarget{staking-withdraw-rewards}{%
+\subparagraph{Staking: Withdraw
+Rewards}\label{staking-withdraw-rewards}}
+
+Withdraw ADA rewards allocated to a user's staking position
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & UpdateTotalStake
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & AdjustStakedAmount
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Staking Manager UTXO representing the global
+state of staking positions
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Staking Position UTXO representing the user's
+staking position
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Staking Manager UTXO with the updated global
+state
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Staking Position UTXO representing the user's
+staking position
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\filbreak
+
+\hypertarget{staking-withdraw-rewards-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Staking/Withdraw-Rewards.svg}
+\caption{Example of a user withdrawing a 25 ADA reward}
+\label{staking-withdraw-rewards-figure}
+\end{figure}}
+
+\hypertarget{staking-unlock}{%
+\subparagraph{Staking: Unlock}\label{staking-unlock}}
+
+Unlock staked INDY from a user's position to make those INDY
+withdrawable
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & Unlock
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Staking Manager UTXO representing the global
+state of staking positions
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Staking Position UTXO representing the user's
+staking position
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Staking Manager UTXO with the updated global
+state
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Staking Position UTXO representing the user's
+staking position
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{governance-1}{%
+\subsection{Governance}\label{governance-1}}
+
+Governance is a group of several contracts: Gov, Poll, Execute, and
+VersionRegistry. The Gov contract stores protocol parameters and
+controls the creation/ending of a Governance Poll. The Poll contract
+handles the creation of vote shards, voting, merging of vote shards, AQB
+calculations, and the ending of a Poll. The Execute contract takes the
+result of a passed proposal and applies the appropriate action to the
+contracts. The VersionRegistry contract handles the creation of Version
+Records, which can be used by other protocol scripts to find an upgrade
+path.
+
+\begin{tabularx}{\linewidth}{l|L|L}
+\caption{Governance native tokens}
+\tabularnewline
+\toprule
+\textbf{Name} & \textbf{Description} & \textbf{Minting
+Policy}
+\tabularnewline
+\midrule
+\endhead
+\textbf{GovNFT}
+&
+Identify authentic Governance output
+
+Governance script ensures that this NFT always stays at the Governance
+output
+&
+The protocol mints exactly 1 token at initialization
+\tabularnewline
+\midrule
+\textbf{PollToken}
+&
+Identifies an authentic proposal
+
+Validator scripts ensure that this token always stays at Poll
+output
+&
+The transaction must consume GovNFT
+\tabularnewline
+\midrule
+\textbf{UpgradeToken}
+&
+Identifies a passed proposal and the upgrade contract
+
+Validator scripts ensure that this token always stays at Execute
+output
+&
+The transaction must consume a PollToken
+\tabularnewline
+\midrule
+\textbf{VersionRecordToken}
+&
+Identifies a potential upgrade path for a contract
+
+Validator scripts ensure that this token always stays at VersionRegistry
+output
+&
+The transaction must consume UpgradeToken
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{execute-script-parameters}{%
+\subsubsection{Execute Script
+Parameters}\label{execute-script-parameters}}
+
+\begin{itemize}
+\item
+  \texttt{govNFT~::~GovNFT}. NFT for identifying authentic Governance
+  Script output.
+\item
+  \texttt{upgradeToken~::~UpgradeToken}. The asset class for identifying
+  a valid upgrade token.
+\item
+  \texttt{iAssetToken~::~iAssetToken}. Token for identifying authentic
+  iAsset output.
+\item
+  \texttt{stabilityPoolToken~::~StabilityPoolToken}. Token for
+  identifying authentic SP output.
+\item
+  \texttt{versionRecordToken~::~VersionRecordToken}. Token for
+  identifying the version record for a protocol upgrade.
+\item
+  \texttt{cdpValHash~::~ValidatorHash}. Hash of CDP script, used for
+  verifying the output of a CDP.
+\item
+  \texttt{sPoolValHash~::~ValidatorHash}. Hash of SP script, used for
+  verifying the output of a SP.
+\item
+  \texttt{versionRegistryValHash~::~ValidatorHash}. Hash of Version
+  Registry script, used for verifying the output of a Version Registry.
+\end{itemize}
+
+\hypertarget{gov-script-parameters}{%
+\subsubsection{Gov Script Parameters}\label{gov-script-parameters}}
+
+\begin{itemize}
+\item
+  \texttt{govNFT~::~GovNFT}. NFT for identifying authentic Governance
+  Script output.
+\item
+  \texttt{pollToken~::~PollToken}. The asset class for identifying a
+  valid Poll token.
+\item
+  \texttt{upgradeToken~::~UpgradeToken}. The asset class for identifying
+  a valid Upgrade token.
+\item
+  \texttt{indyAsset~::~INDY}.
+\item
+  \texttt{versionRecordToken~::~VersionRecordToken}. Token for
+  identifying the version record for a protocol upgrade.
+\item
+  \texttt{pollManagerValHash~::~ValidatorHash}. Hash of Poll Manager
+  script, used for verifying the output of a Poll.
+\item
+  \texttt{gBiasTime~::~POSIXTime}. Used to apply some leverage to the
+  voting procedures.
+\end{itemize}
+
+\hypertarget{poll-manager-script-parameters}{%
+\subsubsection{Poll Manager Script
+Parameters}\label{poll-manager-script-parameters}}
+
+\begin{itemize}
+\item
+  \texttt{govNFT~::~GovNFT}. NFT for identifying authentic Governance
+  Script output.
+\item
+  \texttt{stakingManagerNFT~::~StakingManagerNFT}. NFT for identifying
+  authentic Staking Manager output.
+\item
+  \texttt{pollToken~::~PollToken}. The asset class for identifying a
+  valid Poll token.
+\item
+  \texttt{upgradeToken~::~UpgradeToken}. The asset class for identifying
+  a valid Upgrade token.
+\item
+  \texttt{stakingToken~::~StakingToken}. The asset class for identifying
+  a valid Staking Position token.
+\item
+  \texttt{indyAsset~::~INDY}.
+\item
+  \texttt{govExecuteValHash~::~ValidatorHash}. Hash of Execute script,
+  used for verifying the output of a Upgrade token.
+\item
+  \texttt{stakingValHash~::~ValidatorHash}. Hash of Staking script, used
+  for verifying the output of the Staking token.
+\item
+  \texttt{pBiasTime~::~POSIXTime}. Used to apply some leverage to the
+  voting procedures.
+\item
+  \texttt{treasuryValHash~::~ValidatorHash}. Hash of the treasury
+  script.
+\item
+  \texttt{initialIndyDistribution~::~Integer}. Used by the electorate
+  calculation for the ITD value.
+\item
+  \texttt{totalINDYSupply~::~Integer}. Used by the electorate
+  calculation for the t value.
+\item
+  \texttt{distributionSchedule~::~DistributionSchedule}. Used by the
+  electorate calculation to map all the distributions and their intended
+  distribution rates.
+\item
+  \texttt{shardsAddress~::~Address}. Poll shard validator address.
+\end{itemize}
+
+\hypertarget{poll-shard-script-parameters}{%
+\subsubsection{Poll Shard Script
+Parameters}\label{poll-shard-script-parameters}}
+
+\begin{itemize}
+\item
+  \texttt{pollToken~::~PollToken}. The asset class for identifying a
+  valid Poll token.
+\item
+  \texttt{stakingToken~::~StakingToken}. The asset class for identifying
+  a valid Staking Position token.
+\item
+  \texttt{indyAsset~::~INDY}.
+\item
+  \texttt{stakingValHash~::~ValidatorHash}. Hash of Staking script, used
+  for verifying the output of the Staking token.
+\end{itemize}
+
+\hypertarget{version-record-script-parameters}{%
+\subsubsection{Version Record Script
+Parameters}\label{version-record-script-parameters}}
+
+\begin{itemize}
+\item
+  \texttt{upgradeToken~::~UpgradeToken}. The asset class for identifying
+  a valid Upgrade token.
+\end{itemize}
+
+\begin{tabularx}{\linewidth}{l|L|L|l}
+\caption{Governance outputs}
+\tabularnewline
+\toprule
+\textbf{Type} & \textbf{Description} & \textbf{Datum} &
+\textbf{Values}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Governance}
+&
+Only one output of this type is stored in the script
+
+To create a Poll output, the user must consume this output in the
+transaction
+
+To store the protocol parameters
+&
+\emph{currentProposal}: The number of opened proposals
+
+\emph{protocolParams}: The parameters of the protocol
+
+\emph{currentVersion}: The current version of the protocol, starting at
+0
+
+\emph{protocolStartTime}: The time that the protocol starts
+&
+\emph{GovNFT}: 1
+\tabularnewline
+\midrule
+\textbf{Poll Manager}
+&
+The Poll Manager acts as a central UTXO that manages the content of the
+poll
+&
+\emph{pId}: The identifying key for this particular proposal
+
+\emph{pOwner}: The pub key hash of the owner of the poll
+
+\emph{pContent}: The intended action of this poll: ProposeAsset,
+MigrateAsset, ModifyProtocolParams, UpgradeProtocol, and TextProposal
+
+\emph{pStatus}: The count of yes and no votes
+
+\emph{pEndTime}: The time in which the poll should be ended
+
+\emph{pCreatedShards}: The number of shards created
+
+\emph{pTalliedShards}: The number of shards tallied and merged into Poll
+Manager
+
+\emph{pTotalShards}: The number of shards in total
+
+\emph{pProposeEndTime}: The time in which all of the poll shards must be
+created within
+
+\emph{pExpirationTime}: The time in which the poll should expire
+
+\emph{pProtocolVersion}: The protocol version at the time the poll UTXO
+was created
+&
+\emph{PollToken}: 1
+\tabularnewline
+\midrule
+\textbf{Poll Shard}
+&
+A derivation of the Poll Manager that stores some votes
+&
+\emph{psId}: The identifying key for this particular proposal
+
+\emph{psStatus}: The count of yes and no votes
+
+\emph{psEndTime}: The time in which the poll should be ended
+
+\emph{psManagerAddress}: The address of the poll manager script
+&
+\emph{PollToken}: 1
+\tabularnewline
+\midrule
+\textbf{Upgrade}
+&
+This output can be consumed to process a passed proposal
+&
+\emph{uId}: The identifying key for the passed proposal this upgrade was
+derived from
+
+\emph{uContent}: The intended action of this upgrade: ProposeAsset,
+MigrateAsset, ModifyProtocolParams, UpgradeProtocol, and TextProposal
+
+\emph{uPassedTime}: The time in which the poll was passed
+
+\emph{uEndTime}: The time in which the upgrade should be deemed
+"expired"
+
+\emph{uProtocolVersion}: The protocol version at the time the upgrade
+UTXO was created
+&
+\emph{UpgradeToken}: 1
+\tabularnewline
+\midrule
+\textbf{VersionRecord}
+&
+Given a particular version id, the path for upgrading to a new
+validator
+&
+\emph{versionId}: The version that the record is associated with.
+Version starts at 0 at genesis and works up
+
+\emph{versionPaths}: A map of the validator name that should be upgraded
+and the currency symbol that can be used to process the upgrade
+&
+\emph{VersionRecordToken}: 1
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{governance-endpoints}{%
+\subsubsection{Governance Endpoints}\label{governance-endpoints}}
+
+\hypertarget{governance-create-proposal}{%
+\subparagraph{Governance: Create
+Proposal}\label{governance-create-proposal}}
+
+Creates a proposal to enact changes
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & CreatePoll, takes as parameters the time the
+poll voting period should end, a public key hash corresponding to a
+user's wallet, and the Poll's type (e.g.: ProposeAsset, MigrateAsset,
+etc.)
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Governance UTXO
+\tabularnewline
+\midrule
+\textbf{Consume} & 1+ & INDY to be deposited to create the
+proposal
+\tabularnewline
+\midrule
+\textbf{Mint} & 1 & Poll Token representing the newly created
+proposal
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Governance UTXO
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Poll Manager UTXO that represents the
+proposal
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{governance-create-proposal-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Governance/Governance-Create-Proposal.svg}
+\caption{Example of a user depositing 50 INDY and 2 ADA to create
+a proposal}
+\label{governance-create-proposal-figure}
+\end{figure}}
+
+\hypertarget{governance-vote}{%
+\subparagraph{Governance: Vote}\label{governance-vote}}
+
+Vote on an open proposal
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & Vote, takes as a parameter the vote choice
+(yes or no)
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & Lock
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Poll Shard UTXO to cast the vote
+with
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Staking Position UTXO representing the user's
+voting power
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Poll Shard UTXO with the vote
+recorded
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Staking Position UTXO representing the user's
+voting power
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{governance-vote-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Governance/Governance-Vote.svg}
+\caption{Example of a user casting their vote}
+\label{governance-vote-figure}
+\end{figure}}
+
+\hypertarget{governance-create-shards}{%
+\subparagraph{Governance: Create
+Shards}\label{governance-create-shards}}
+
+Create one or more shards to allow users to vote on proposals
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & CreateShards, takes as a parameter the time
+the poll voting period should end
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Poll Manager UTXO that represents the
+proposal
+\tabularnewline
+\midrule
+\textbf{Output} & \(\infty\) & Poll Shard UTXOs to record
+votes
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{governance-create-shards-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Governance/Governance-Create-Shards.svg}
+\caption{Example of a user creating three vote shards for their
+proposal and depositing a refundable 6 ADA}
+\label{governance-create-shards-figure}
+\end{figure}}
+
+\hypertarget{governance-merge-shards}{%
+\subparagraph{Governance: Merge Shards}\label{governance-merge-shards}}
+
+Merges one or more shards so that votes can be tallied
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & MergeShardsManager, takes as a parameter the
+time the poll voting period should end
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & MergeShards
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Poll Manager UTXO that represents the
+proposal
+\tabularnewline
+\midrule
+\textbf{Consume} & \(\infty\) & Poll Shard UTXOs to merge
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Poll Manager UTXO with the updated vote
+count
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{governance-merge-shards-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Governance/Governance-Merge-Shards.svg}
+\caption{Example of a user merging three vote shards for their
+proposal and retrieving their original 6 ADA deposit}
+\label{governance-merge-shards-figure}
+\end{figure}}
+
+\hypertarget{governance-end-proposal-passed}{%
+\subparagraph{Governance: End Proposal
+Passed}\label{governance-end-proposal-passed}}
+
+End a proposal that has passed
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & EndPoll, takes as a parameter the time the
+poll voting period should end
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Poll Manager UTXO that represents the
+proposal
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & Governance UTXO
+\tabularnewline
+\midrule
+\textbf{Mint} & 1 & Upgrade Token
+\tabularnewline
+\midrule
+\textbf{Burn} & 1 & Poll Token
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Upgrade UTXO
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{governance-end-proposal-passed-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Governance/Governance-End-Proposal-Passed.svg}
+\caption{Example of a user ending their proposal that passed and
+retrieving their original 50 INDY deposit}
+\label{governance-end-proposal-passed-figure}
+\end{figure}}
+
+\hypertarget{governance-end-proposal-failed-or-expired}{%
+\subparagraph{Governance: End Proposal (Failed or
+Expired)}\label{governance-end-proposal-failed-or-expired}}
+
+End a proposal that has failed or expired
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & EndPoll, takes as a parameter the time the
+poll voting period should end
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Poll Manager UTXO that represents the
+proposal
+\tabularnewline
+\midrule
+\textbf{Reference} & 1 & Governance UTXO
+\tabularnewline
+\midrule
+\textbf{Burn} & 1 & Poll Token
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Treasury UTXO containing the INDY deposited when
+the proposal was created
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{governance-end-proposal-failed-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Governance/Governance-End-Proposal-Failed-Expired.svg}
+\caption{Example of a user ending a failed or expired proposal and
+sending the deposited 50 INDY to the Treasury}
+\label{governance-end-proposal-failed-figure}
+\end{figure}}
+
+\hypertarget{governance-execute-text-proposal}{%
+\subparagraph{Governance: Execute Text
+Proposal}\label{governance-execute-text-proposal}}
+
+Execute a passed proposal containing text adopted by the DAO
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & EndPoll, takes as a parameter the time the
+poll voting period should end
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & Execute
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Upgrade UTXO containing the Upgrade Token for the
+passed proposal
+\tabularnewline
+\midrule
+\textbf{Burn} & 1 & Upgrade Token
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{governance-execute-text-proposal-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Governance/Governance-Execute-Text-Proposal.svg}
+\caption{Example of a user executing their passed text proposal
+and retrieving their original 2 ADA deposit}
+\label{governance-execute-text-proposal-figure}
+\end{figure}}
+
+\hypertarget{governance-execute-propose-asset}{%
+\subparagraph{Governance: Execute Propose
+Asset}\label{governance-execute-propose-asset}}
+
+Execute a passed proposal adopted by the DAO to whitelist a new iAsset
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & Execute
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Upgrade UTXO containing the Upgrade Token for the
+passed proposal
+\tabularnewline
+\midrule
+\textbf{Burn} & 1 & Upgrade Token
+\tabularnewline
+\midrule
+\textbf{Mint} & 1 & iAsset Token
+\tabularnewline
+\midrule
+\textbf{Mint} & 1 & Stability Pool Token
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & iAsset UTXO representing the new whitelisted
+iAsset
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Stability Pool UTXO representing the Stability
+Pool for the new whitelisted iAsset
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{governance-execute-propose-asset-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Governance/Governance-Execute-Propose-Asset.svg}
+\caption{Example of a user executing their passed whitelist iAsset
+proposal, enabling a new iAsset within the protocol, creating a
+new Stability Pool, and retrieving their original 2 ADA deposit}
+\label{governance-execute-propose-asset-figure}
+\end{figure}}
+
+\hypertarget{governance-migrate-asset}{%
+\subparagraph{Governance: Migrate
+Asset}\label{governance-migrate-asset}}
+
+Execute a passed proposal adopted by the DAO to update an existing
+iAsset
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & Execute
+\tabularnewline
+\midrule
+\textbf{Redeemer} & N.A. & UpgradeAsset
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Upgrade UTXO containing the Upgrade Token for the
+passed proposal
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & iAsset UTXO representing the iAsset to
+update
+\tabularnewline
+\midrule
+\textbf{Burn} & 1 & Upgrade Token
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & iAsset UTXO representing the updated
+iAsset
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{governance-execute-migrate-asset-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Governance/Governance-Execute-Migrate-Asset.svg}
+\caption{Example of a user executing their passed proposal to
+update an iAsset, and retrieving their original 2 ADA deposit}
+\label{governance-execute-migrate-asset-figure}
+\end{figure}}
+
+\hypertarget{liquidity}{%
+\subsection{Liquidity}\label{liquidity}}
+
+This contract is meant to be a store for the LP Tokens for tracking INDY
+token rewards. Users will store their LP Tokens meant for reward
+gathering in this contract. An off-chain mechanism will then be used to
+calculate and confirm user rewards.
+
+\begin{tabularx}{\linewidth}{l|L|L}
+\caption{Liquidity outputs}
+\tabularnewline
+\toprule
+\textbf{Type} & \textbf{Description} & \textbf{Datum}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Liquidity} & This output acts as a store of LP Tokens &
+\emph{owner}: The owner of the Liquidity Position
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{liquidity-endpoints}{%
+\subsubsection{Liquidity Endpoints}\label{liquidity-endpoints}}
+
+\hypertarget{liquidity-create}{%
+\subparagraph{Liquidity: Create}\label{liquidity-create}}
+
+Creates a user's liquidity position
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Consume} & 1+ & UTXOs containing the user's LP Tokens to be
+staked
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Liquidity UTXO representing the user's staked LP
+Tokens
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{liquidity-create-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Liquidity/Liquidity-Create.svg}
+\caption{Example of a user staking 500 LP tokens and depositing a
+refundable 2 ADA}
+\label{liquidity-create-figure}
+\end{figure}}
+
+\hypertarget{liquidity-stake}{%
+\subparagraph{Liquidity: Stake}\label{liquidity-stake}}
+
+Adds more LP Tokens to a user's liquidity position
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Consume} & 1 & Liquidity UTXO representing the user's staked LP
+Tokens
+\tabularnewline
+\midrule
+\textbf{Consume} & 1+ & UTXOs containing the user's LP Tokens to be
+staked
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Liquidity UTXO representing the user's staked LP
+Tokens
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{liquidity-update-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Liquidity/Liquidity-Update.svg}
+\caption{Example of a user staking an additional 500 LP tokens}
+\label{liquidity-update-figure}
+\end{figure}}
+
+\hypertarget{liquidity-unstake}{%
+\subparagraph{Liquidity: Unstake}\label{liquidity-unstake}}
+
+Unstakes a user's staked LP Tokens
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Consume} & 1 & Liquidity UTXO representing the user's staked LP
+Tokens
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & UTXO holding the user's unstaked LP
+Tokens
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{liquidity-close-figure}{%
+\begin{figure}[htbp]
+\centering
+\includesvg[width=17cm]{
+images/endpoints/Liquidity/Liquidity-Close.svg}
+\caption{Example of a user unstaking 500 LP tokens and receiving
+back their 2 ADA deposit}
+\label{liquidity-close-figure}
+\end{figure}}
+
+\hypertarget{collector}{%
+\subsection{Collector}\label{collector}}
+
+The Collector contract is an intermediary contract between protocol fee
+collection and distribution. The collection of funds can occur by
+sending funds directly to the Collector, or consuming an existing
+Collector and the output being more funds than were input. To distribute
+the funds, the Staking Manager can consume a Collector UTXO and use it
+to send funds to INDY stakers.
+
+\hypertarget{parameters-1}{%
+\subsubsection{Parameters}\label{parameters-1}}
+
+\begin{itemize}
+\item
+  \texttt{stakingManagerNFT~::~StakingManagerNFT}. NFT of
+  StakingManager.
+\item
+  \texttt{stakingToken~::~StakingToken}. Token for identifying authentic
+  Staking Position output.
+\item
+  \texttt{versionRecordToken~::~VersionRecordToken}. Token identifying
+  the VersionRegistry output
+\end{itemize}
+
+\hypertarget{collector-endpoints}{%
+\subsubsection{Collector Endpoints}\label{collector-endpoints}}
+
+\hypertarget{collector-collect}{%
+\subparagraph{Collector: Collect}\label{collector-collect}}
+
+Collect Protocol Fees upon withdrawing a CDP's collateral or closing a
+CDP
+
+\begin{tabularx}{\linewidth}{l|l|L}
+\toprule
+\textbf{Type} & \textbf{Amount} & \textbf{Description}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Redeemer} & N.A. & Collect
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & Collector UTXO which may already contain
+previously collected protocol fees
+\tabularnewline
+\midrule
+\textbf{Consume} & 1 & CDP UTXO that represents a user's
+CDP
+\tabularnewline
+\midrule
+\textbf{Output} & 1 & Collector UTXO updated with the collected
+fee
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{treasury}{%
+\subsection{Treasury}\label{treasury}}
+
+The purpose of this contract is to hold the DAO Treasury funds. The DAO
+Treasury will contain INDY that's vested over time according to Indigo's
+tokenomics model. The funds in the DAO Treasury are intended to be spent
+to help further develop, maintain and enhance the Indigo Protocol for
+the betterment of its users and INDY holders. Until a future protocol
+version upgrade allows those funds to be spent, the funds will be locked
+in this contract.
+
+\hypertarget{parameters-2}{%
+\subsubsection{Parameters}\label{parameters-2}}
+
+\begin{itemize}
+\item
+  \texttt{versionRecordToken~::~VersionRecordToken}. Token identifying
+  the VersionRegistry output.
+\end{itemize}
+
+\begin{tabularx}{\linewidth}{l|L|L}
+\caption{Treasury outputs}
+\tabularnewline
+\toprule
+\textbf{Type} & \textbf{Description} & \textbf{Values}
+\tabularnewline
+\midrule
+\endhead
+\textbf{Treasury}
+&
+This output stores the DAO Treasury tokens
+&
+\emph{INDY}: The INDY stored in the Treasury
+
+\emph{IdentityToken}: 1
+\tabularnewline
+\bottomrule
+\end{tabularx}
+
+\hypertarget{known-protocol-limitations}{%
+\section{Known Protocol Limitations}\label{known-protocol-limitations}}
+
+Indigo Protocol v1.0 was built to support a mainnet launch. However,
+there are a few areas that could have additional optimizations and/or
+fixes to be more scalable and to support a growing user base.
+
+\hypertarget{stability-pool-contention}{%
+\subsection{Stability Pool Contention}\label{stability-pool-contention}}
+
+As described in the
+\protect\hyperlink{stability-pool-liquidation-rewards}{SP Rewards
+section}, SPs have two associated UTXOs that can lead to contention: SP
+state, and account record. There exists one SP state UTXO per iAsset. SP
+state must be updated upon the following actions:
+
+\begin{enumerate}
+\item
+  Create an account record (i.e., deposit iAsset into the SP)
+\item
+  Adjust an account record (i.e., deposit iAsset into, or withdraw
+  iAsset from, the SP)
+\item
+  Liquidate a CDP (i.e., withdraw iAsset from the SP)
+\end{enumerate}
+
+Updating SP state causes contention because only one update can be made
+per SP per block. As a mitigation effort, multiple CDPs can be merged
+into one to reduce the number of CDP liquidation actions required
+against a single SP.
+
+Contention still exists for users depositing and withdrawing iAssets
+from a SP. To mitigate this effect, a
+\protect\hyperlink{stability-pool-staking-fees}{fee mechanism} has been
+implemented to disincentivize SP stakers from updating their positions
+too frequently. When users create or adjust an account record, they will
+be required to deposit a mimimum amount of ADA, which will be
+redistributed to all SP stakers.
+
+Additionally, contention is experienced when SP stakers withdraw their
+owed rewards. Only one user can withdraw ADA rewards earned from
+liquidations per SP per block.
+
+\hypertarget{governance-contention}{%
+\subsection{Governance Contention}\label{governance-contention}}
+
+Users can deposit their INDY into the protocol to become
+\protect\hyperlink{staking}{Members} and gain access to privileges such
+as voting rights and reward collection. The
+\protect\hyperlink{staking}{Staking Manager} UTXO is responsible for
+managing staking positions of users. The Staking Manager must be updated
+upon the following actions:
+
+\begin{enumerate}
+\item
+  Create a staking position (i.e., deposit INDY into governance)
+\item
+  Adjust a staking position (i.e., deposit INDY into or withdraw INDY
+  from governance)
+\item
+  Deposit staking reward (i.e., collect an ADA protocol fee)
+\item
+  Withdraw staking reward (i.e., redeem ADA reward for staking)
+\end{enumerate}
+
+Interacting with the Staking Manager causes contention because only one
+update can be made per block. As a mitigation effort, the
+\protect\hyperlink{collector}{Collector} can bundle staking rewards
+collected by the protocol to reduce the number of staking reward
+transactions deposited into the Staking Manager. Contention still exists
+for INDY stakers depositing or withdrawing INDY or withdrawing ADA
+rewards.
+
+Additionally, contention exists for recording governance votes. To
+improve scalability, votes are recorded using
+\protect\hyperlink{governance-sharding}{individual shards}. Users can
+pick unused shards to record their votes. While, theoretically, an
+unlimited number of shards can be configured, the Cardano blockchain is
+limited in the number of shards that can record votes per block. If
+there are insufficient available shards, then users will have to wait
+for a shard to become available before voting.
+
+Shard collision can occur when two or more users select the same shard
+to vote with; only one user will succeed with recording the vote, the
+other users using the same shard will experience transaction errors. If
+a user explicitly checks for shard availability before submitting a
+transaction, another user may also select that same shard before the
+transaction is processed in a block, thereby possibly resulting in
+collision and transaction failure for either user.
+
+\hypertarget{definitions-for-mathematical-notations}{%
+\section{Definitions for Mathematical
+Notations}\label{definitions-for-mathematical-notations}}
+
+Throughout this document, references are made to mathematical equations.
+Below is a summary of notations that may be used and their associated
+meanings.
+
+\hypertarget{sets}{%
+\subsection{Sets}\label{sets}}
+
+Values enclosed in \(\left\{ \  \right\}\) are a unique assortment of
+values. Each value is separated by a comma (\(,\)).
+
+\(\left\{ 10,20,30,40,50 \right\}\) means five values incrementing in
+tens, beginning at 10 and ending at 50.
+
+\hypertarget{summation}{%
+\subsection{Summation}\label{summation}}
+
+The \(\sum_{}^{}\ \)represents a sum of values. It can either be in the
+form of \(\sum_{}^{}x\) or \(\sum_{i = 1}^{n}i\).
+
+\(\sum_{}^{}x\) means to sum all values of a set. If \(x\) is a set of
+\(\left\{ 1,2,3 \right\}\), then:
+
+\[\sum_{}^{}x = 1 + 2 + 3 = 6\]
+
+\(\sum_{i = 1}^{n}i\) means to iterate \(n\) times and sum the result of
+\(x\). \(i\) begins at \(0\) increments until \(i\) equals \(n\). If
+\(n\) is 3, then:
+
+\[\sum_{i = 1}^{n}i = 1 + 2 + 3 = 6\]
+
+\hypertarget{length-of-sets}{%
+\subsection{Length of Sets}\label{length-of-sets}}
+
+A set enclosed within \(\left| \  \right|\) represents the length of the
+set.
+
+\(\left| x \right|\) means the length of set \(x\). If \(x\) is
+\(\left\{ 5,10,15 \right\}\), then \(\left| x \right| = 3\) because it
+contains 3 elements in the set.
+
+\hypertarget{indexes}{%
+\subsection{Indexes}\label{indexes}}
+
+A subscript (\(x_{i}\)) represents an associated variable or a value
+within a set.
+
+If \(x\) is a set and \(i\) is a number, then \(x_{i}\) means the
+\(i\)\textsuperscript{th} element of the set \(x\). If \(x\) is
+\(\left\{ 3,6,9 \right\}\), then \(x_{1}\) is 3, \(x_{2}\) is 6, and
+\(x_{3}\) is 9. Thus, if \(i\) is 2, then \(x_{i}\) is 6 because it's
+the 2\textsuperscript{nd} element of \(x\).
+
+\hypertarget{mean-of-sets}{%
+\subsection{Mean of Sets}\label{mean-of-sets}}
+
+A set with \(\overline{}\) (a bar) above it represents the mean
+(average) of the set.
+
+\(\overline{x}\) means the mean of set \(x\), which is the sum of all
+elements in the set divided by the length of the set. Alternatively,
+\(\overline{x}\) can be expressed as:
+
+\[\frac{\sum_{i = 1}^{\left| x \right|}x_{i}}{\left| x \right|}\]
+
+If \(x\) is \(\left\{ 10,30,20,40 \right\}\), then:
+
+\[\overline{x} = \frac{10 + 30 + 20 + 40}{4} = 25\]
+
+\hypertarget{rounding}{%
+\subsection{Rounding}\label{rounding}}
+
+Values enclosed in \(\left\lceil \  \right\rceil\) or
+\(\left\lfloor \  \right\rfloor\) represent the value either rounded up
+or down to the nearest whole number.
+
+\(\left\lceil x \right\rceil\) means ``ceil,'' or to round up to the
+nearest whole number. If \(x\) is 0.5, then:
+\(\left\lceil x \right\rceil = 1\).
+
+\(\left\lfloor x \right\rfloor\) means ``floor,'' or to round down to
+the nearest whole number. If \(x\) is 0.5, then:
+\(\left\lfloor x \right\rfloor = 0\).
+
+\hypertarget{scoped-variables}{%
+\subsection{Scoped Variables}\label{scoped-variables}}
+
+Sometimes equations may be simplified and made more readable using
+scoped variables.
+
+\(x = \begin{pmatrix}
+\text{let\ }y\text{\ equal\ }1 \\
+y \\
+\end{pmatrix}\) means to create a variable called \(y\) with a value of
+1, which can then be referenced throughout any component within the
+\(\left( \  \right)\) it's defined within. Therefore, \(x\) is 1 because
+the bottom-most statement is \(y\) and \(y\) is 1.
+
+\hypertarget{conditional-statements}{%
+\subsection{Conditional Statements}\label{conditional-statements}}
+
+A statement proceeding \(\left\{ \  \right.\ \ \)without an
+enclosing\(\left. \ \ \right\}\) is conditional. Conditional statements
+take the form of \(\left\{ \begin{matrix}
+x & \text{if\ }a > 0 \\
+y & \text{otherwise} \\
+\end{matrix} \right.\ \ \). They can have two or more conditions, such
+as: \(\left\{ \begin{matrix}
+x & \text{if\ }a > 0\text{\ and\ }a < 1 \\
+y & \text{if\ }a > 50 \\
+z & \text{otherwise} \\
+\end{matrix} \right.\ \ \).
+
+\(\left\{ \begin{matrix}
+x & \text{if\ }a > 0\text{\ and\ }a < 1 \\
+y & \text{if\ }a \geq 1 \\
+z & \text{otherwise} \\
+\end{matrix} \right.\ \ \) means that the value is determined by the
+truthfulness of three conditions. If \(a\) is between 0 and 1, then the
+statement is \(x\). If \(a\) is 1 or larger, then the statement is
+\(y\). The only other possibility is \(a\) is 0 or smaller, in which
+case the statement is \(z\).
+
+``otherwise'' means if no other condition matches.
+
+``and'' means that both conditions must be true.
+
+``or'' means that either condition must be true.
+
+\hypertarget{functions}{%
+\subsection{Functions}\label{functions}}
+
+Statements proceeding \(f:\left( \  \right) \mapsto\) represent a
+callable function that can be referenced.
+
+\(f:\left( a,b \right) \mapsto a + b\) means that \(f\) takes two values
+and adds them together to determine the value. A reference to
+\(f\left( 1,2 \right)\) equates to 3.
+
+\hypertarget{minimum-and-maximums}{%
+\subsection{Minimum and Maximums}\label{minimum-and-maximums}}
+
+Minimum and maximum values within sets can be referenced using
+\(min\left\{ \  \right\}\) and \(max\left\{ \  \right\}\) respectively.
+
+\(min\left\{ 100,10,1000 \right\}\) means the lowest value out of the
+set \(\left\{ 100,10,1000 \right\}\), therefore: 10.
+
+\(max\left\{ 100,10,1000 \right\}\) means the highest value out of the
+set \(\left\{ 100,10,1000 \right\}\), therefore: 1000.
+
+\filbreak
+
+\hypertarget{minimum-ada-to-create-utxo}{%
+\section{Minimum ADA to Create UTXO}\label{minimum-ada-to-create-utxo}}
+
+To create a UTXO on Cardano, a minimum amount of ADA is required to be
+locked into the transaction. The amount of ADA deposit required to
+create a UTXO is calculated using the formula:
+
+\[x = ab + 160b\]
+
+Where:
+
+\begin{itemize}
+\item
+  \(x\) is the amount of ADA required to create a shard
+\item
+  \(a\) is the size of the UTXO of the transaction
+\item
+  \(b\) is the \emph{coinsPerUTxOByte} parameter of the Cardano
+  blockchain\footnote{Calculating required ADA for UTXOs is described by
+    the UTXO inference rules on page 16 of the
+    \href{https://hydra.iohk.io/build/17586760/download/1/babbage-changes.pdf}{formal
+    Cardano specification}.}
+\end{itemize}
+
+Upon closing the UTXO, the deposited ADA can be unlocked.
 
 \end{sloppypar}
 \end{document}
