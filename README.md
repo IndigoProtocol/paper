@@ -1,5 +1,4 @@
-Indigo Paper
-============
+# Indigo Paper
 
 [![License: CC BY-SA
 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
@@ -15,13 +14,10 @@ financial opportunties.
 For more information about Indigo, visit the [Indigo
 website](https://indigoprotocol.io/).
 
-Usage
------
+## Usage
 
 The latest version of the Indigo paper in PDF format is available at
-https://indigoprotocol.io/paper. Some PDF viewers may place borders
-around links within the document. For a better viewing experience, you
-may consider using an alternative PDF viewer like SumatraPDF.
+https://indigoprotocol.io/paper.
 
 To edit the paper, the source code is available in this repository. The
 paper is defined in a single `latex` file `main.tex`.
@@ -41,8 +37,7 @@ ability to automatically reload the PDF after compilation. Whereas some
 other PDF viewers may require you to manually close and reopen
 `main.pdf`.
 
-Processing with Pandoc
-----------------------
+## Processing with Pandoc
 
 `pandoc` can be helpful for formatting `main.tex`, such as wrapping long
 lines of text. This can make it easier to review changes in git.
@@ -54,8 +49,7 @@ diagrams, and incorrectly processing tables. After running
 `./preprocess.sh`, use git tools to view changes. Discard any changes
 that alter structure or otherwise are nonsensical.
 
-Editing with Microsoft Word
----------------------------
+## Editing with Microsoft Word
 
 `pandoc` can be used to convert `main.tex` into `docx` format:
 
@@ -67,7 +61,7 @@ To convert `main.docx` back into `main.tex`, run:
 
     ./from-docx.sh
 
-This conversion process will greatly alter formatting. It's recommended
+This conversion process will greatly alter formatting. It’s recommended
 to edit small sections at a time then commit into this repository. After
 running `./preprocess.sh`, use git tools to view changes. Discard any
 changes that alter structure or otherwise are nonsensical. Manual effort
