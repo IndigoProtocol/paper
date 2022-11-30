@@ -1116,7 +1116,7 @@ is based on three variables:
 can be calculated using the formula:
 
 \[\sigma = \left\{ \begin{matrix}
-  \sqrt{\genfrac{}{}{}{}{\raisebox{5pt}{$\sum_{i = 1}^{\left| x \right|}\left( x_{i}\  - \ \overline{x} \right)^{2}$}}{\raisebox{-5pt}{$\left| x \right|$}}} & \text{if\ }\left| x \right| > 30 \\ \\
+  \sqrt{\genfrac{}{}{}{}{\raisebox{5pt}{$\sum_{i = 2}^{\left| x \right|}\left( \frac{x_{i} - x_{i - 1}}{x_{i - 1}} - \ \overline{x} \right)^{2}$}}{\raisebox{-5pt}{$\left| x \right|$}}} & \text{if\ }\left| x \right| > 30 \\ \\
   0 & \text{if\ }\left| x \right| \leq 30 \\
   \end{matrix} \right.\ \]
 
