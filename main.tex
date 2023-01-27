@@ -1116,19 +1116,24 @@ is based on three variables:
 can be calculated using the formula:
 
 \[\sigma = \left\{ \begin{matrix}
-  \sqrt{\genfrac{}{}{}{}{\raisebox{5pt}{$\sum_{i = 1}^{\left| x \right|}\left( x_{i}\  - \ \overline{x} \right)^{2}$}}{\raisebox{-5pt}{$\left| x \right|$}}} & \text{if\ }\left| x \right| > 30 \\ \\
-  0 & \text{if\ }\left| x \right| \leq 30 \\
-  \end{matrix} \right.\ \]
+\begin{pmatrix}
+\text{let}\text{\ y\ }\text{equal}\ \left\langle \frac{x_{j}}{x_{j - 1}} - 1\ :j\  \in \ \left\langle 2,\ldots,\left| x \right| \right\rangle \right\rangle \\
+\  \\
+\sqrt{\frac{\sum_{i = 1}^{\left| y \right|}\left( y_{i} - \overline{y} \right)^{2}}{\left| y \right|}} \\
+\end{pmatrix} & \text{if}\ \left| x \right| > 30 \\
+\  & \  \\
+0 & \text{if}\ \left| x \right| \leq 30 \\
+\end{matrix} \right.\ \]
 
 Where:
 
 \begin{itemize}
 \item
-  \(\sigma\) is the SP's standard deviation
+  \(\sigma\) is the volatility of the iAsset
 \item
-  \(x\) is the set of the iAsset's tracked asset's historical daily
+  \(x\) is the sequence of the iAsset's tracked asset's historical daily
   close price for the past year (or maximum amount of time that data
-  exists for)
+  exists for) denominated in iAsset's collateral (i.e., ADA)
 \end{itemize}
 
 \filbreak
