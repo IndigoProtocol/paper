@@ -1199,19 +1199,19 @@ is calculated based on a value of \(\rho\), representing an average of
 \(\sigma\), \(\varphi\), and \(\omega\), and is calculated daily using:
 
 \[\rho = \begin{pmatrix}
-\text{let}\ \sigma_{s}\ \text{equal}\ \sum_{i = 0}^{\left| \sigma \right|}\left\{ \begin{matrix}
+\text{let}\ \sigma_{s}\ \text{equal}\ \sum_{i = 1}^{\left| \sigma \right|}\left\{ \begin{matrix}
 \frac{1}{\sigma_{i}} & \text{if}\ \sigma_{i} > 0\ \text{and}\ t_{i} > 0 \\
 \  & \  \\
 0 & \text{otherwise} \\
 \end{matrix} \right.\  \\
 \  \\
-\text{let}\ \varphi_{s}\ \text{equal}\ \sum_{i = 0}^{\left| \varphi \right|}\left\{ \begin{matrix}
+\text{let}\ \varphi_{s}\ \text{equal}\ \sum_{i = 1}^{\left| \varphi \right|}\left\{ \begin{matrix}
 \frac{1}{\varphi_{i}} & \text{if}\ \varphi_{i} > 0\ \text{and}\ t_{i} > 0 \\
 \  & \  \\
 0 & \text{otherwise} \\
 \end{matrix} \right.\  \\
 \  \\
-\text{let}\ \omega_{s}\ \text{equal}\ \sum_{i = 0}^{\left| \omega \right|}\left\{ \begin{matrix}
+\text{let}\ \omega_{s}\ \text{equal}\ \sum_{i = 1}^{\left| \omega \right|}\left\{ \begin{matrix}
 \omega_{i} & \text{if}\ t_{i} > 0 \\
 \  & \  \\
 0 & \text{otherwise} \\
