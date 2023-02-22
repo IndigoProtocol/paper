@@ -1203,43 +1203,74 @@ SP}\label{the-amount-of-indy-to-be-distributed-to-a-sp}}
 is calculated based on a value of \(\rho\), representing an average of
 \(\sigma\), \(\varphi\), and \(\omega\), and is calculated daily using:
 
-\[\rho = \left\{ \begin{matrix}
-  \genfrac{}{}{}{}{\raisebox{5pt}{$\genfrac{}{}{}{}{\raisebox{7pt}{$1 / \sigma$}}{\raisebox{-7pt}{$\sum_{i = 1}^{\left| a \right|}\left\{ \begin{matrix}
-    \\
-    1 / a_{i} & \text{if\ }a_{i} > 0 \\ \\
-    0 & \text{if\ }a_{i} = 0 \\ \\
-    \end{matrix} \right.\ $}} + \genfrac{}{}{}{}{\raisebox{7pt}{$1 / \varphi$}}{\raisebox{-7pt}{$\sum_{i = 1}^{\left| b \right|}\left\{ \begin{matrix}
-    \\
-    1 / b_{i} & \text{if\ }b_{i} > 0 \\ \\
-    0 & \text{if\ }b_{i} = 0 \\ \\
-    \end{matrix} \right.\ $}} + \genfrac{}{}{}{}{\raisebox{7pt}{$\omega$}}{\raisebox{-7pt}{$\sum_{i = 1}^{\left| c \right|}c_{i}$}}$}}{\raisebox{-5pt}{$3$}} & if\ \sigma > 0\text{\ and\ }\varphi > 0\text{\ and\ }\omega > 0 \\
-  & \\
-  \genfrac{}{}{}{}{\raisebox{7pt}{$1 / \sigma$}}{\raisebox{-7pt}{$\sum_{i = 1}^{\left| a \right|}\left\{ \begin{matrix}
-    \\
-    1 / a_{i} & \text{if\ }a_{i} > 0 \\ \\
-    0 & \text{if\ }a_{i} = 0 \\ \\
-    \end{matrix} \right.\ $}} & \text{if\ }\sigma > 0\text{\ and\ }\varphi = 0\ and\ \omega = 0 \\
-  & \\
-  0 & \text{otherwise} \\
-  \end{matrix} \right.\ \]
+\[\rho = \begin{pmatrix}
+\text{let}\ \sigma_{s}\ \text{equal}\ \sum_{i = 1}^{\left| \sigma \right|}\left\{ \begin{matrix}
+\frac{1}{\sigma_{i}} & \text{if}\ \sigma_{i} > 0\ \text{and}\ t_{i} > 0 \\
+\  & \  \\
+0 & \text{otherwise} \\
+\end{matrix} \right.\  \\
+\  \\
+\text{let}\ \varphi_{s}\ \text{equal}\ \sum_{i = 1}^{\left| \varphi \right|}\left\{ \begin{matrix}
+\frac{1}{\varphi_{i}} & \text{if}\ \varphi_{i} > 0\ \text{and}\ t_{i} > 0 \\
+\  & \  \\
+0 & \text{otherwise} \\
+\end{matrix} \right.\  \\
+\  \\
+\text{let}\ \omega_{s}\ \text{equal}\ \sum_{i = 1}^{\left| \omega \right|}\left\{ \begin{matrix}
+\omega_{i} & \text{if}\ t_{i} > 0 \\
+\  & \  \\
+0 & \text{otherwise} \\
+\end{matrix} \right.\  \\
+\  \\
+\left\{ \begin{matrix}
+0 & \text{if}\ t_{a} \leq 0 \\
+\  & \  \\
+\begin{pmatrix}
+\text{let}\ \sigma_{v}\ \text{equal}\ \left\{ \begin{matrix}
+\frac{1}{\sigma_{a}}/\sigma_{s} & \text{if}\ \sigma_{a} > 0\ \text{and}\ \sigma_{s} > 0 \\
+\  & \  \\
+0 & \text{otherwise} \\
+\end{matrix} \right.\  \\
+\  \\
+\text{let}\ \varphi_{v}\ \text{equal}\ \left\{ \begin{matrix}
+\frac{1}{\varphi_{a}}/\varphi_{s} & \text{if}\ \varphi_{a} > 0\ \text{and}\ \varphi_{s} > 0 \\
+\  & \  \\
+0 & \text{otherwise} \\
+\end{matrix} \right.\  \\
+\  \\
+\text{let}\ \omega_{v}\ \text{equal}\ \left\{ \begin{matrix}
+\frac{\omega_{a}}{\omega_{s}} & \text{if}\ \omega_{s} > 0 \\
+\  & \  \\
+0 & \text{otherwise} \\
+\end{matrix} \right.\  \\
+\  \\
+\left\{ \begin{matrix}
+\frac{\sigma_{v} + \varphi_{v} + \omega_{v}}{3} & \text{if}\ \varphi_{s} > 0\ \text{and}\ \omega_{s} > 0 \\
+\  & \  \\
+\sigma_{v} & \text{otherwise} \\
+\end{matrix} \right.\  \\
+\end{pmatrix} & \text{otherwise} \\
+\end{matrix} \right.\  \\
+\end{pmatrix}\]
 
 Where:
 
 \begin{itemize}
 \item
-  \(\rho\) is the distribution value for the SP
+  \(\rho\) is the distribution coefficient for the iAsset
 \item
-  \(a\) is the collection of each SP's \(\sigma\)
+  \(\sigma\) is the sequence of volatility values of each iAsset
 \item
-  \(b\) is the collection of each SP's \(\varphi\)
+  \(\varphi\) is the sequence of Stability Pool saturation values of
+  each iAsset
 \item
-  \(c\) is the collection of each SP's \(\omega\)
+  \(\omega\) is the sequence of market cap values of each iAsset
 \item
-  \(\sigma\) is the SP's volatility
+  \(t\) is the sequence of total number of Stability Pool stakers, who
+  have staked for at least 24 hours, of each iAsset
 \item
-  \(\varphi\) is the SP's saturation
-\item
-  \(\omega\) is the SP's iAsset market cap
+  \(a\) is the index of the iAsset to calculate \(\rho\) based on the
+  corresponding \(\sigma\), \(\varphi\), \(\omega\), and \(t\) sequences
 \end{itemize}
 
 \hypertarget{the-amount-of-indy-to-distribute-to-each-sp}{%
