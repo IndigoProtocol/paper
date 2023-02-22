@@ -1102,33 +1102,38 @@ is based on three variables:
 
 \begin{enumerate}
 \item
-  Standard deviation of the SP's iAsset's underlying asset (\(\sigma\))
+  Volatility of the SP's iAsset's underlying asset (\(\sigma\))
 \item
   Stability Pool Saturation (\(\varphi\))
 \item
   Market cap of the SP's iAsset (\(\omega\))
 \end{enumerate}
 
-\hypertarget{standard-deviation-for-a-sp-sigma}{%
-\paragraph{\texorpdfstring{Standard deviation for a SP
-(\(\sigma\))}{Standard deviation for a SP (\textbackslash sigma)}}\label{standard-deviation-for-a-sp-sigma}}
+\hypertarget{volatility-for-a-sp-sigma}{%
+\paragraph{\texorpdfstring{Volatility for a SP
+(\(\sigma\))}{Volatility for a SP (\textbackslash sigma)}}\label{volatility-for-a-sp-sigma}}
 
 can be calculated using the formula:
 
 \[\sigma = \left\{ \begin{matrix}
-  \sqrt{\genfrac{}{}{}{}{\raisebox{5pt}{$\sum_{i = 1}^{\left| x \right|}\left( x_{i}\  - \ \overline{x} \right)^{2}$}}{\raisebox{-5pt}{$\left| x \right|$}}} & \text{if\ }\left| x \right| > 30 \\ \\
-  0 & \text{if\ }\left| x \right| \leq 30 \\
-  \end{matrix} \right.\ \]
+\begin{pmatrix}
+\text{let}\text{\ y\ }\text{equal}\ \left\langle \frac{x_{j}}{x_{j - 1}} - 1\ :j\  \in \ \left\langle 2,\ldots,\left| x \right| \right\rangle \right\rangle \\
+\  \\
+\sqrt{\frac{\sum_{i = 1}^{\left| y \right|}\left( y_{i} - \overline{y} \right)^{2}}{\left| y \right|}} \\
+\end{pmatrix} & \text{if}\ \left| x \right| > 30 \\
+\  & \  \\
+0 & \text{if}\ \left| x \right| \leq 30 \\
+\end{matrix} \right.\ \]
 
 Where:
 
 \begin{itemize}
 \item
-  \(\sigma\) is the SP's standard deviation
+  \(\sigma\) is the volatility of the iAsset
 \item
-  \(x\) is the set of the iAsset's tracked asset's historical daily
+  \(x\) is the sequence of the iAsset's tracked asset's historical daily
   close price for the past year (or maximum amount of time that data
-  exists for)
+  exists for) denominated in iAsset's collateral (i.e., ADA)
 \end{itemize}
 
 \filbreak
@@ -1262,7 +1267,7 @@ Where:
   \(\omega\) is the sequence of market cap values of each iAsset
 \item
   \(t\) is the sequence of total number of Stability Pool stakers, who
-  have staked for at least 24 hours, of each iAssets
+  have staked for at least 24 hours, of each iAsset
 \item
   \(a\) is the index of the iAsset to calculate \(\rho\) based on the
   corresponding \(\sigma\), \(\varphi\), \(\omega\), and \(t\) sequences
@@ -1324,8 +1329,8 @@ Where:
   \(d\) is the collection of hours all SP stakers have been staking
   iAsset for
 \item
-  \(e\) is the total hours the LP staker has been staking their LP
-  tokens for
+  \(e\) is the total hours the SP staker has been staking their iAsset
+  for
 \end{itemize}
 
 \hypertarget{total-amount-of-indy-to-distribute-to-the-sp-staker}{%
@@ -4803,7 +4808,7 @@ form of \(\sum_{}^{}x\) or \(\sum_{i = 1}^{n}i\).
 \[\sum_{}^{}x = 1 + 2 + 3 = 6\]
 
 \(\sum_{i = 1}^{n}i\) means to iterate \(n\) times and sum the result of
-\(x\). \(i\) begins at \(0\) increments until \(i\) equals \(n\). If
+\(x\). \(i\) begins at \(1\) and increments until \(i\) equals \(n\). If
 \(n\) is 3, then:
 
 \[\sum_{i = 1}^{n}i = 1 + 2 + 3 = 6\]
