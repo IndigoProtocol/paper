@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1677394027 "/Users/lokdao/Documents/Dev-Github/IndigoProtocol/paper/main.tex" "main.pdf" "main" 1677394028
-  "/Users/lokdao/Documents/Dev-Github/IndigoProtocol/paper/main.tex" 1677394025 165215 0d04a6b82c018ae7ab40d43179509eb9 ""
+["pdflatex"] 1677684606 "/Users/lokdao/Documents/Dev-Github/IndigoProtocol/paper/main.tex" "main.pdf" "main" 1677684608
+  "/Users/lokdao/Documents/Dev-Github/IndigoProtocol/paper/main.tex" 1677684570 165465 03e7ccfa3646d8e557659f1fa96d373b ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -233,7 +233,7 @@
   "images/merge-cdp.svg" 1677071496 11436 c0708b988a7cf8fb795bf4a61b6a6616 ""
   "images/migrate-utxo.svg" 1677071496 28287 c410fd41f16650ddc07f098482684503 ""
   "images/partial-spl.svg" 1677071496 10716 770dc5d30495513b6ad55a8a7c798240 ""
-  "images/proposal-process-diagram.svg" 1677393966 1493283 9aa19596f7093f81cf8d244eda305209 ""
+  "images/proposal-process-diagram.svg" 1677513258 1493283 9aa19596f7093f81cf8d244eda305209 ""
   "images/spl.svg" 1677071496 10696 816ab3bab2623006e3ea9722fb812748 ""
   "images/stability-deposits.svg" 1677071496 21179 57579e168e4716eff1c3e8a20377b587 ""
   "images/stability-epoch.svg" 1677071496 23941 485d5789d2f177c698ac686e9e354b72 ""
@@ -244,10 +244,10 @@
   "images/tokenomics/piechart.svg" 1677071496 6445 050e2b5eabc12138e44733516a6ce915 ""
   "images/upgrade-protocol-process-diagram.svg" 1677071496 837916 95843e98cd4ceaf4d470e7dda18521dd ""
   "images/upgrade-protocol.svg" 1677071496 22173 bfebd7e2b881bd01f8ea6667c1012252 ""
-  "main.aux" 1677394028 51557 5e369f804aab8f592363282482b8b498 "pdflatex"
-  "main.out" 1677394028 11553 9a1adfd2d02d826d7d1e9d3047486827 "pdflatex"
-  "main.tex" 1677394025 165215 0d04a6b82c018ae7ab40d43179509eb9 ""
-  "main.toc" 1677394028 10345 26bac9dd64b1f0d263508890101bcbb7 "pdflatex"
+  "main.aux" 1677684607 51557 5e369f804aab8f592363282482b8b498 "pdflatex"
+  "main.out" 1677684607 11553 9a1adfd2d02d826d7d1e9d3047486827 "pdflatex"
+  "main.tex" 1677684570 165465 03e7ccfa3646d8e557659f1fa96d373b ""
+  "main.toc" 1677684607 10345 26bac9dd64b1f0d263508890101bcbb7 "pdflatex"
   "svg-inkscape/Adjust-Account_svg-tex.pdf" 1677071919 295914 c0ef2f7e54ffee57484fffdbc35025a3 ""
   "svg-inkscape/Adjust-Account_svg-tex.pdf_tex" 1677071919 2093 489a037067f91bc6d87b6017a174a193 ""
   "svg-inkscape/CDP-Close-Position_svg-tex.pdf" 1677071916 236328 f1a3840cd7640a1d24fdf2fdc6373e35 ""
