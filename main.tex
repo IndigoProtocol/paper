@@ -1472,8 +1472,7 @@ Where:
 \paragraph{Calculating INDY rewarded per
 iAsset}\label{calculating-indy-rewarded-per-iasset}}
 
-for a day during an epoch is based on assessing the liquidity saturation
-comparative other iAssets in addition to the iAsset market cap:
+for a day during an epoch is based on assessing the liquidity saturation and market cap of an iAsset with respect to other iAssets:
 
 \[k = \left\{ \begin{matrix}
   \text{let\ }m = \dfrac{1 / \varphi}{\sum_{i = 1}^{\left| b \right|} 1 / b_{i}} 
@@ -1510,7 +1509,7 @@ Where:
 \paragraph{INDY to distribute to an individual LP
 staker}\label{indy-to-distribute-to-an-individual-lp-staker}}
 
-is calculated based on the staker's share of total iAsset staked:
+is calculated based on the LP staker's share of total LP tokens staked for a given iAsset:
 
 \[r=k\frac{x}{\sum_{i=1}^{\left| a \right|}a_{i}}\]
 
@@ -1518,7 +1517,7 @@ Where:
 
 \begin{itemize}
 \item
-  \(r\) is the amount of INDY rewarded to the LP staker for a particular
+  \(r\) is the amount of INDY rewarded to an individual LP staker for a particular
   day within the epoch
 \item
   \(k\) is the amount of INDY to distribute to the iAsset's LP stakers
@@ -1526,10 +1525,10 @@ Where:
 \item
   \(x\) is the iAsset LP staker's amount of LP tokens (of a given DEX) staked on Indigo 
 \item
-  \(a\) is the set of LP tokens' staked amount on Indigo, for a particular iAsset
+  \(a\) is the set of each LP tokens' amount staked on Indigo, for a particular iAsset
 \end{itemize}
 
-\(r\) is calculated daily for each user, and the sum of all \(r\) values
+\(r\) is calculated daily for each LP staker's position, and the sum of all \(r\) values
 for each day is the amount of INDY the user is rewarded for the epoch:
 
 \[a = \sum_{i = 1}^{5}r_{i}\]
