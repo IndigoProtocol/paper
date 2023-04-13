@@ -1511,7 +1511,7 @@ staker}\label{indy-to-distribute-to-an-individual-lp-staker}}
 
 is calculated based on the LP staker's share of total LP tokens staked for a given iAsset:
 
-\[r=k\frac{x}{\sum_{i=1}^{\left| a \right|}a_{i}}\]
+\[r=k\frac{x}{\sum_{i=1}^{\left| a \right|}a_{i}}\frac{y}{\sum_{i=1}^{\left| b \right|}b_{i}}\]
 
 Where:
 
@@ -1523,9 +1523,13 @@ Where:
   \(k\) is the amount of INDY to distribute to the iAsset's LP stakers
   for a particular day within the epoch
 \item
-  \(x\) is the iAsset LP staker's amount of LP tokens (of a given DEX) staked on Indigo 
+  \(x\) is the amount of iAsset deposited in the liquidity pool associated to the LP stakers' LP tokens 
 \item
-  \(a\) is the set of each LP tokens' amount staked on Indigo, for a particular iAsset
+  \(a\) is the total amount of iAsset deposited across all liquidity pools for which their associated LP tokens have been whitelisted 
+\item
+  \(y\) is the LP staker's amount of LP tokens staked on Indigo 
+\item
+  \(b\) is the set of each LP tokens' amount staked on Indigo, for a particular iAsset
 \end{itemize}
 
 \(r\) is calculated daily for each LP staker's position, and the sum of all \(r\) values
