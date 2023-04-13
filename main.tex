@@ -1463,8 +1463,7 @@ Where:
 \item
   \(\varphi\) is the liquidity saturation
 \item
-  \(a\) is the set of total iAsset staked for each pool corresponding
-  with the set of whitelisted LP tokens for the iAsset
+  \(a\) is a set containing the total amount of iAsset deposited in a DEX's liquidity pool, which had a corresponding LP Token whitelisted
 \item
   \(b\) is the total supply of the iAsset
 \end{itemize}
@@ -1473,26 +1472,14 @@ Where:
 \paragraph{Calculating INDY rewarded per
 iAsset}\label{calculating-indy-rewarded-per-iasset}}
 
-for a day during an epoch is based on assessing the liquidity saturation
-comparative other iAssets in addition to the iAsset market caps:
+for a day during an epoch is based on assessing the liquidity saturation and market cap of an iAsset with respect to other iAssets:
 
 \[k = \left\{ \begin{matrix}
-  \frac{a}{5\left|b\right|} & \text{if\ }\varphi \geq 0.2\text{\ and\ }\varphi \leq 0.3 \\ \\
-  \begin{pmatrix}
-    \text{let\ }l = \sum_{i=0}^{\left| b \right|}\left\{\begin{matrix}
-    \frac{a}{5\left|b\right|} & \text{if\ }b\geq 0.2 \text{\ and\ }b \leq 0.3         \\ \\
-    0           & \text{otherwise}                                      \\
-    \end{matrix}\right. \\ \\
-    \text{let\ }m = \dfrac{1 / \varphi}{\sum_{i = 1}^{\left| b \right|}\left\{ \begin{matrix}
-    0           & \text{if\ }b_{i} \geq 0.2\text{\ and\ }b_{i} \leq 0.3 \\ \\
-    1 / b_{i}   & \text{otherwise}                                      \\
-    \end{matrix} \right.}\\ \\
-    \text{let\ }o = \dfrac{cd}{\sum_{i = 1}^{\left| b \right|}\left\{ \begin{matrix}
-    0           & \text{if\ }b_{i} \geq 0.2\text{\ and\ }b_{i} \leq 0.3 \\ \\
-    x_{i}y_{i}  & \text{otherwise}                                      \\
-    \end{matrix} \right.} \\ \\
-    \left( \frac{a}{5} - l\right) \left( m + o \right)
-  \end{pmatrix} & \text{otherwise} \\
+  \text{let\ }m = \dfrac{1 / \varphi}{\sum_{i = 1}^{\left| b \right|} 1 / b_{i}} 
+  \\ \\
+  \text{let\ }o = \dfrac{cd}{\sum_{i = 1}^{\left| b \right|} x_{i}y_{i}}
+  \\ \\
+  \left( \frac{a}{5} \right) \left( \frac{m + o}{2} \right)
   \end{matrix} \right.\]
 
 Where:
@@ -1505,66 +1492,56 @@ Where:
   \(a\) is the amount of INDY being distributed to all LP stakers for
   the epoch
 \item
-  \(b\) is the collection of each iAsset's \(\varphi\)
+  \(b\) is the set of each iAsset's liquidity saturation (\(\varphi\))
 \item
-  \(c\) is the intended price of the iAsset
+  \(c\) is the price of the iAsset at daily close
 \item
   \(d\) is the total supply of the iAsset
 \item
-  \(x\) is the collection of intended iAsset prices of the corresponding
-  collection \(b\)
+  \(x\) is the set of iAsset prices at daily close of the corresponding
+  set \(b\)
 \item
-  \(y\) is the collection of total iAsset supplies of the corresponding
-  collection \(b\)
+  \(y\) is the collection of iAsset total supply of the corresponding
+  set \(b\)
 \end{itemize}
 
 \hypertarget{indy-to-distribute-to-an-individual-lp-staker}{%
 \paragraph{INDY to distribute to an individual LP
 staker}\label{indy-to-distribute-to-an-individual-lp-staker}}
 
-is calculated based on the staker's share of total iAsset staked:
+is calculated based on the LP staker's share of total LP tokens staked for a given iAsset:
 
-\[r=k\frac{xy/z}{b\sum_{i=1}^{\left| a \right|}a_{i}b_{i}/c_{i}}\]
+\[r=k\frac{x}{\sum_{i=1}^{\left| a \right|}a_{i}}\frac{y}{\sum_{i=1}^{\left| b \right|}b_{i}}\]
 
 Where:
 
 \begin{itemize}
 \item
-  \(r\) is the amount of INDY rewarded to the LP staker for a particular
+  \(r\) is the amount of INDY rewarded to an individual LP staker for a particular
   day within the epoch
 \item
   \(k\) is the amount of INDY to distribute to the iAsset's LP stakers
   for a particular day within the epoch
 \item
-  \(a\) is the collection of staked amounts of LP tokens
+  \(x\) is the amount of iAsset deposited in the liquidity pool associated to the LP stakers' LP tokens 
 \item
-  \(b\) is the collection of total iAsset staked for pools corresponding
-  with the LP tokens in collection \(a\)
+  \(a\) is the total amount of iAsset deposited across all liquidity pools for which their associated LP tokens have been whitelisted 
 \item
-  \(c\) is the collection of total supply of the corresponding LP tokens
-  collection \(a\)
+  \(y\) is the LP staker's amount of LP tokens staked on Indigo 
 \item
-  \(x\) is the LP staker's amount LP tokens staked
-\item
-  \(y\) is the total iAsset staked in the LP staker's associated pool
-\item
-  \(z\) is the total supply of the LP tokens for the LP staker's
-  associated pool
+  \(b\) is the set of each LP tokens' amount staked on Indigo, for a particular iAsset
 \end{itemize}
 
-\(r\) is calculated daily for each user, and the sum of all \(r\) values
+\(r\) is calculated daily for each LP staker's position, and the sum of all \(r\) values
 for each day is the amount of INDY the user is rewarded for the epoch:
 
-\[a = \sum_{i = 1}^{5}b_{i}\]
+\[a = \sum_{i = 1}^{5}r_{i}\]
 
 Where:
 
 \begin{itemize}
 \item
-  \(a\) is the amount of INDY rewarded to the LP staker the epoch
-\item
-  \(b\) is the collection of \(r\) values calculated for each day within
-  the epoch
+  \(a\) is the amount of INDY rewarded to the LP staker for the epoch
 \end{itemize}
 
 LP stakers can withdraw their accumulated INDY staking rewards (the sum
