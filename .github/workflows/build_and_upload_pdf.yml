@@ -1,0 +1,53 @@
+name: Build and upload PDF
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*.*.*
+  pull_request:
+
+jobs:
+  pdf:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: main.tex
+          extra_system_packages: inkscape
+          latexmk_shell_escape: true
+
+      - name: Get PDF version
+        id: get-version
+        run: |
+          if [ ${{ github.ref_type }} = tag ]; then
+            version=${{ github.ref_name }}
+          elif [ ${{ github.ref_type }} = branch ]; then
+            version=${GITHUB_SHA:0:7}
+          else
+            echo 'Unknown github.ref_name: ${{ github.ref_type }}'
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Rename PDF
+        run: mv main.pdf 'indigo-paper-${{ steps.get-version.outputs.version }}.pdf'
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v3
+        with:
+          name: pdf
+          path: indigo-paper-${{ steps.get-version.outputs.version }}.pdf
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        if: github.ref_type == 'tag'
+        with:
+          files: indigo-paper-${{ steps.get-version.outputs.version }}.pdf
+          generate_release_notes: true
